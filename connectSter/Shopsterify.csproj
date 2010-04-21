@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0F21010C-37F1-40CD-9AEA-47D65C322241}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Shopsterify</RootNamespace>
+    <AssemblyName>Shopsterify</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Shopster.API.Service.SDK, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\DASNTrunk\Shared\Shopster.API.Service.SDK.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="log4net.config.xml" />
+    <Compile Include="Shopify\Interfaces\IShopifyCollection.cs" />
+    <Compile Include="Shopify\Interfaces\IShopifyMetafield.cs" />
+    <Compile Include="Shopify\Interfaces\IShopifyAddress.cs" />
+    <Compile Include="Shopify\ShopifyCollection.cs" />
+    <Compile Include="Shopify\ShopifyLineItem.cs" />
+    <Compile Include="Shopify\ShopifyMetafield.cs" />
+    <Compile Include="Shopify\ShopifyShippingLine.cs" />
+    <Compile Include="Shopify\ShopifyTaxLine.cs" />
+    <Compile Include="Shopsterify\CountryCodes.cs" />
+    <Compile Include="Shopsterify\Database\Interfaces\IProductMap.cs" />
+    <Compile Include="Shopsterify\Database\ShopsterifyProductMap.cs" />
+    <Compile Include="Shopsterify\Interfaces\IAddress.cs" />
+    <Compile Include="Shopsterify\Interfaces\ILineItem.cs" />
+    <Compile Include="Shopsterify\Interfaces\IMappedProduct.cs" />
+    <Compile Include="Shopsterify\Interfaces\IOrder.cs" />
+    <Compile Include="Shopsterify\Interfaces\IOrderMapping.cs" />
+    <Compile Include="Shopsterify\OrderConverter.cs" />
+    <Compile Include="Shopsterify\ProductConverter.cs" />
+    <Compile Include="Shopsterify\Database\ShopsterifyDatabase.cs" />
+    <Compile Include="MyApiContext.cs" />
+    <Compile Include="Shopify\Enumerations.cs" />
+    <Compile Include="Shopify\Interfaces\IShopifyOrder.cs" />
+    <Compile Include="Shopify\Interfaces\IShopifyProduct.cs" />
+    <Compile Include="Shopify\Interfaces\IShopifyObject.cs" />
+    <Compile Include="Shopify\Interfaces\IShopifyResponse.cs" />
+    <Compile Include="Shopify\Interfaces\IShopifyShop.cs" />
+    <Compile Include="Shopify\ShopifyShop.cs" />
+    <Compile Include="Shopify\ShopifyAddress.cs" />
+    <Compile Include="Shopify\ShopifyCommunicator.cs" />
+    <Compile Include="Shopify\ShopifyImage.cs" />
+    <Compile Include="Shopify\ShopifyOrder.cs" />
+    <Compile Include="Shopify\ShopifyProduct.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shopify\ShopifyResponse.cs" />
+    <Compile Include="Shopify\ShopifyStoreAccount.cs" />
+    <Compile Include="Shopify\ShopifyStoreAuth.cs" />
+    <Compile Include="Shopify\ShopifyVariant.cs" />
+    <Compile Include="Shopify\ShopifyAppAuth.cs" />
+    <Compile Include="Shopsterify\ProductMap.cs" />
+    <Compile Include="Shopsterify\ShopifyMetafieldMap.cs" />
+    <Compile Include="Shopsterify\ShopifyMetafieldMapping.cs" />
+    <Compile Include="Shopsterify\ShopsterifyController.cs" />
+    <Compile Include="Shopsterify\ShopsterifyOrderMapping.cs" />
+    <Compile Include="Shopsterify\ShopsterifyProduct.cs" />
+    <Compile Include="Shopsterify\ShopsterifySyncJob.cs" />
+    <Compile Include="Shopsterify\ShopsterifyUser.cs" />
+    <Compile Include="Shopster\Converters\ShopsterAddressConverter.cs" />
+    <Compile Include="Shopster\Converters\ShopsterOrderConverter.cs" />
+    <Compile Include="Shopster\ShopsterCommunicator.cs" />
+    <Compile Include="Shopster\ShopsterObjects\ShopsterAddress.cs" />
+    <Compile Include="Shopster\ShopsterObjects\ShopsterCartItem.cs" />
+    <Compile Include="Shopster\ShopsterObjects\ShopsterOrder.cs" />
+    <Compile Include="Shopster\ShopsterProductComparer.cs" />
+    <Compile Include="Shopster\ShopsterUser.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

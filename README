@@ -1,0 +1,32 @@
+  _______  __                          __                
+ |   _   ||  |--..-----..-----..-----.|  |_ .-----..----.
+ |   \___||     ||  _  ||  _  ||__ --||   _||  -__||   _|
+ |____   ||__|__||_____||   __||_____||____||_____||__|  
+ |   /   |              |__|                          __              __ 
+ `-------'	.-----..----..-----..-----..-----..-----.|  |_ .-----.   |__|
+            |  _  ||   _||  -__||__ --||  -__||     ||   _||__ --|    __ 
+            |   __||__|  |_____||_____||_____||__|__||____||_____|   |__|
+            |__|                 _   _____ _                                                                     
+                                | | /  ___| |           
+  ___ ___  _ __  _ __   ___  ___| |_\ `--.| |_ ___ _ __ 
+ / __/ _ \| '_ \| '_ \ / _ \/ __| __|`--. \ __/ _ \ '__|
+| (_| (_) | | | | | | |  __/ (__| |_/\__/ / ||  __/ |   
+ \___\___/|_| |_|_| |_|\___|\___|\__\____/ \__\___|_|   
+ Original contributions by: Craig Ball, Mitchell Cowie,
+Mike Graf, Paul McCluskey and Roden Siril .
+                                                        
+Description: connectSter is an opensource application 
+that allows the integration of various Ecommerce APIs 
+with Shopster's API. As of first release, only 
+Shopify/Shopster is supported. However, other modules 
+will be released in due time. 
+
+Usage: 
+git the repository. 
+setup your mysql database using schema.mysql
+setup the logging options in log4net.config.xml
+setup the database options in Shopsterify\Database\ShopsterifyDatabase.cs
+Compile code 
+run code
+
+More extensive documentation to come.
