@@ -1,0 +1,266 @@
+CREATE DATABASE `shopsterify` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+DROP TABLE IF EXISTS `shopsterify`.`shopifyaccounttype`;
+CREATE TABLE  `shopsterify`.`shopifyaccounttype` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Should Match the Enum in code',
+  `transactionFee` decimal(10,0) unsigned NOT NULL COMMENT 'Percent txn fee',
+  `skus` int(10) unsigned NOT NULL COMMENT 'Max Number of skus',
+  `storage` int(10) unsigned NOT NULL COMMENT 'storage space in KB',
+  `monthlyprice` decimal(10,0) unsigned NOT NULL COMMENT 'keep around for marketing''s sake.',
+  `name` char(16) NOT NULL COMMENT 'name of package',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 COMMENT='Matches Enumeration in Shopify code';
+
+DROP TABLE IF EXISTS `shopsterify`.`shopifyproduct`;
+CREATE TABLE  `shopsterify`.`shopifyproduct` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `VersionDate` datetime NOT NULL COMMENT 'Time of last update of this information from Shopify',
+  `ShopifyAccountDomain` varchar(255) NOT NULL COMMENT 'References shopifyUser table.',
+  PRIMARY KEY (`id`),
+  KEY `FK_shopifyAccountDomain` (`ShopifyAccountDomain`),
+  CONSTRAINT `FK_shopifyAccountDomain` FOREIGN KEY (`ShopifyAccountDomain`) REFERENCES `shopifyuser` (`subdomain`)
+) ENGINE=InnoDB AUTO_INCREMENT=15667963 DEFAULT CHARSET=latin1 COMMENT='Each row represents a product on Shopify';
+
+DROP TABLE IF EXISTS `shopsterify`.`shopifyuser`;
+CREATE TABLE  `shopsterify`.`shopifyuser` (
+  `subdomain` varchar(255) NOT NULL,
+  `authToken` char(32) NOT NULL,
+  `dateDisabled` datetime DEFAULT NULL,
+  `replicationLevel` int(4) unsigned NOT NULL,
+  `status` int(4) unsigned NOT NULL,
+  `shopifyAccountType` int(2) unsigned NOT NULL,
+  PRIMARY KEY (`subdomain`),
+  KEY `FK_shopifyAccountType` (`shopifyAccountType`),
+  CONSTRAINT `FK_shopifyAccountType` FOREIGN KEY (`shopifyAccountType`) REFERENCES `shopsteraccounttype` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `shopsterify`.`shopifyvariant`;
+CREATE TABLE  `shopsterify`.`shopifyvariant` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Matches the id field in shopify',
+  `VersionDate` datetime NOT NULL,
+  `ProductId` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_productID` (`ProductId`),
+  CONSTRAINT `FK_productID` FOREIGN KEY (`ProductId`) REFERENCES `shopifyproduct` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='represents a variant in the shopify system';
+
+DROP TABLE IF EXISTS `shopsterify`.`shopsteraccounttype`;
+CREATE TABLE  `shopsterify`.`shopsteraccounttype` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `Products` varchar(45) NOT NULL,
+  `NetworkProducts` varchar(45) NOT NULL,
+  `MonthlyQuota` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Number of KB per month of quota',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COMMENT='represents the quotas and limits of a shopster account';
+
+DROP TABLE IF EXISTS `shopsterify`.`shopsterifyorder`;
+CREATE TABLE  `shopsterify`.`shopsterifyorder` (
+  `ShopsterOrderId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ShopifyOrderId` int(10) unsigned NOT NULL,
+  `ShopsterUserId` int(10) unsigned NOT NULL,
+  `ShopifyAccountDomain` varchar(255) NOT NULL,
+  `ShopsterVersion` datetime NOT NULL,
+  `ShopifyVersion` datetime NOT NULL,
+  PRIMARY KEY (`ShopsterOrderId`,`ShopifyOrderId`),
+  KEY `Unique_ShopsterOrderId` (`ShopsterOrderId`),
+  KEY `Unique_ShopifyOrderId` (`ShopifyOrderId`),
+  KEY `FK_subdomain` (`ShopifyAccountDomain`) USING BTREE,
+  KEY `FK_shopsterifyorder_ShopsterUserId` (`ShopsterUserId`),
+  CONSTRAINT `FK_shopsterifyorder_ShopsterUserId` FOREIGN KEY (`ShopsterUserId`) REFERENCES `shopsteruser` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=238520 DEFAULT CHARSET=latin1 COMMENT='maps orders on both systems';
+
+DROP TABLE IF EXISTS `shopsterify`.`shopsterifyproductmap`;
+CREATE TABLE  `shopsterify`.`shopsterifyproductmap` (
+  `ShopsterProductId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ShopifyProductId` int(10) unsigned NOT NULL,
+  `ShopsterIsMaster` tinyint(1) NOT NULL,
+  PRIMARY KEY (`ShopsterProductId`) USING BTREE,
+  UNIQUE KEY `Unique_ShopifyProductId` (`ShopifyProductId`,`ShopsterProductId`) USING BTREE,
+  CONSTRAINT `FK_ShopifyProductId` FOREIGN KEY (`ShopifyProductId`) REFERENCES `shopifyproduct` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=15414834 DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `shopsterify`.`shopsterifyusermap`;
+CREATE TABLE  `shopsterify`.`shopsterifyusermap` (
+  `ShopsterUserId` int(10) unsigned NOT NULL,
+  `ShopifySubdomain` varchar(255) NOT NULL,
+  `sleepUntil` datetime DEFAULT NULL,
+  PRIMARY KEY (`ShopsterUserId`,`ShopifySubdomain`) USING BTREE,
+  UNIQUE KEY `Unique_ShopsterUserId` (`ShopsterUserId`) USING BTREE,
+  UNIQUE KEY `Unique_ShopifySubdomain` (`ShopifySubdomain`),
+  CONSTRAINT `FK_shopsterifyusermap_ShopifySubdomain` FOREIGN KEY (`ShopifySubdomain`) REFERENCES `shopifyuser` (`subdomain`),
+  CONSTRAINT `FK_ShopsterUserId` FOREIGN KEY (`ShopsterUserId`) REFERENCES `shopsteruser` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Maps ShopsterAccounts to ShopifyAccounts and Vice Versa';
+
+DROP TABLE IF EXISTS `shopsterify`.`shopsterproduct`;
+CREATE TABLE  `shopsterify`.`shopsterproduct` (
+  `Shopsteruser` int(10) unsigned NOT NULL,
+  `VersionDate` datetime NOT NULL COMMENT ' Time of last update from Shopster',
+  `ShopsterId` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`ShopsterId`),
+  KEY `FK_ShopsterUser` (`Shopsteruser`),
+  CONSTRAINT `FK_ShopsterUser` FOREIGN KEY (`Shopsteruser`) REFERENCES `shopsteruser` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `shopsterify`.`shopsteruser`;
+CREATE TABLE  `shopsterify`.`shopsteruser` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `AuthToken` char(28) NOT NULL,
+  `AuthSecret` char(28) NOT NULL,
+  `ShopsterAccountType` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_shopsteraccounttype` (`ShopsterAccountType`),
+  CONSTRAINT `FK_shopsteraccounttype` FOREIGN KEY (`ShopsterAccountType`) REFERENCES `shopifyaccounttype` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=206787 DEFAULT CHARSET=latin1 COMMENT='represents information about a shopster user in shopsterify';
+
+DROP VIEW IF EXISTS `shopsterify`.`shopsterifyproduct`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW  `shopsterify`.`shopsterifyproduct` AS select `sp`.`VersionDate` AS `shopsterVersionDate`,`spm`.`ShopsterProductId` AS `shopsterproductId`,`shopifyproduct`.`id` AS `shopifyproductId`,`shopifyproduct`.`VersionDate` AS `shopifyVersionDate` from ((`shopsterproduct` `sp` join `shopsterifyproductmap` `spm` on((`sp`.`ShopsterId` = `spm`.`ShopsterProductId`))) join `shopifyproduct` on((`spm`.`ShopifyProductId` = `shopifyproduct`.`id`)));
+
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS `shopsterify`.`DeleteShopsterifyProduct`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE  `shopsterify`.`DeleteShopsterifyProduct`(IN  shopsterProductId INT, IN shopifyProductId INT)
+BEGIN
+DECLARE spmDelete INT;
+DECLARE shopsterDelete INT;
+DECLARE shopifyDelete INT;
+DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
+
+Start Transaction;
+
+DELETE spm FROM shopsterifyProductMap AS spm
+WHERE spm.ShopsterProductId = shopsterProductId
+AND spm.ShopifyProductId = shopifyProductId;
+SET @spmDelete = row_count();
+
+
+DELETE sp FROM shopsterProduct AS sp LEFT OUTER JOIN shopsterifyproductmap AS spm
+ON sp.shopsterId = spm.shopsterProductId
+WHERE
+        sp.shopsterId = shopsterProductId
+        AND spm.shopsterproductid IS NULL AND spm.shopifyproductid IS NULL;
+SET @shopsterDelete = row_count();
+
+DELETE sp FROM shopifyProduct sp LEFT OUTER JOIN shopsterifyproductmap spm
+ON sp.id = spm.shopifyproductId
+WHERE sp.id = shopifyProductId
+AND spm.shopifyproductid IS NULL AND spm.shopsterproductid IS NULL;
+SET @shopifyDeleted = row_count();
+
+
+SELECT @spmDelete as ProductMapsDeleted, @shopsterDelete as ShopsterProductsDeleted, @shopifyDeleted as ShopifyProductsDeleted;
+
+COMMIT;
+
+END $$
+
+DELIMITER ;
+
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS `shopsterify`.`InsertShopsterifyProduct`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE  `shopsterify`.`InsertShopsterifyProduct`(IN inShopsterUserId INT, IN shopsterDate DateTime,
+        IN inShopsterProductId INT, IN inShopifyProductId INT, IN inShopifyUserId VARCHAR(255), IN shopifyDate DateTime, IN inShopsterIsMaster BOOL)
+BEGIN
+DECLARE insertShopster INT;
+DECLARE insertShopify INT;
+DECLARE insertyShopsterifyProductMap INT;
+DECLARE adate DateTime;
+
+
+DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
+
+Start Transaction;
+SET @insertShopster = 0;
+SET @insertShopify  = 0;
+SET @insertyShopsterifyProductMap = 0;
+
+
+	INSERT INTO shopsterProduct(shopsterid, versiondate, shopsteruser )
+	VALUES(inShopsterProductId, shopsterDate, inShopsterUserId)
+	ON DUPLICATE KEY UPDATE versionDate=shopsterDate, shopsteruser=inShopsterUserId;
+	SET @insertShopster = ROW_COUNT();
+
+
+  INSERT INTO shopifyProduct(id, versionDate, ShopifyAccountDomain)
+	VALUES(inShopifyProductId, shopifyDate, inShopifyUserId)
+	ON DUPLICATE KEY UPDATE versionDate = shopifyDate, ShopifyAccountDomain=inShopifyUserId;
+SET @insertShopify = ROW_COUNT();
+
+
+INSERT INTO shopsterifyproductmap(shopsterProductId, shopifyProductId, ShopsterIsMaster)
+  VALUES (inShopsterProductId, inShopifyproductId, inShopsterIsMaster)
+  ON DUPLICATE KEY UPDATE ShopifyProductId = inshopifyProductId , ShopsterIsMaster = inShopsterIsMaster;
+SET @insertShopifyProductMap = ROW_COUNT();
+
+SELECT @insertShopster as InsertedShopsterProduct, @insertShopify as InsertedShopifyProduct, @insertShopifyProductMap as InsertedShopifyProductMap;
+
+Commit;
+END $$
+
+DELIMITER ;
+
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS `shopsterify`.`InsertShopsterifyUser`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE  `shopsterify`.`InsertShopsterifyUser`( in shopsterUserId INT(10), in shopsterAuthToken CHAR(28), in shopsterAuthSecret CHAR(28), in shopsterAccountType INT(10),
+subdomain Varchar(255), in userStatus INT(4), in replicationLevel Int(4), in shopifyAuthToken Char(32), in shopifyAccountType INT(2))
+BEGIN
+DECLARE insertShopsterUser INT;
+DECLARE insertShopifyUser INT;
+DECLARE insertShopsterifyUserMap INT;
+DECLARE shopifyUserId INT;
+DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
+
+SET @insertShopster = 0;
+SET @insertShopify  = 0;
+SET @insertShopsterifyProductMap = 0;
+
+
+INSERT INTO shopifyUser (subDomain, `status`,ReplicationLevel, AuthToken, ShopifyAccountType)
+VALUES(subdomain, userStatus, replicationLevel, shopifyAuthToken, shopifyAccountType)
+ON DUPLICATE KEY UPDATE AuthToken=shopifyAuthToken;
+SET @insertShopify = ROW_COUNT();
+
+
+INSERT INTO shopsterUser(id, AuthToken, AuthSecret, ShopsterAccountType)
+VALUES(shopsterUserId, shopsterAuthToken, shopsterAuthSecret, shopsterAccountType)
+ON DUPLICATE KEY UPDATE AuthToken=shopsterAuthToken, AuthSecret=shopsterAuthSecret;
+SET @insertShopster = ROW_COUNT();
+
+
+REPLACE INTO shopsterifyUserMap
+VALUES(shopsterUserId, subdomain, UTC_TIMESTAMP());
+SET @insertShopsterifyUserMap = ROW_COUNT();
+
+COMMIT;
+
+
+SELECT @insertShopster as ShopsterUserInserted ,@insertShopify as ShopifyUserInserted, @insertShopsterifyUserMap as ShopsterifyUserMapInserted;
+END $$
+
+DELIMITER ;
+
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS `shopsterify`.`SelectProductForUser`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE  `shopsterify`.`SelectProductForUser`(IN shopsterUser INT, IN shopifyUser VARCHAR(255))
+BEGIN
+
+SELECT sp.versiondate as shopsterVersionDate,
+    spm.shopsterproductId,
+    shopifyProduct.id as shopifyproductId,
+    shopifyproduct.versiondate as shopifyVersionDate
+From shopsterproduct sp
+  join shopsterifyProductmap spm
+  on sp.shopsterid = spm.Shopsterproductid
+  join shopifyproduct shopifyProduct
+  on spm.shopifyProductid = shopifyproduct.id
+Where sp.Shopsteruser = shopsterUser
+        and shopifyProduct.ShopifyAccountDomain = shopifyUser;
+
+
+END $$
+
+DELIMITER ;
+
