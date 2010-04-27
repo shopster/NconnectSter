@@ -44,6 +44,7 @@ namespace ShopsterifyAuthentication
 		}
 		protected void Page_Load(object sender, EventArgs e)
 		{
+			return;
 			if (Request.QueryString.HasKeys())
 			{
 				
@@ -58,7 +59,7 @@ namespace ShopsterifyAuthentication
 					}
 					else
 					{
-						//Todo logging and error message
+						//Todo logging and error message, and to pretty this page. 
 						myDiv.InnerHtml =String.Format(@"An Error Occured. Please email techsupport@site.com and copy the following into the email body.<br>
 						<p><ul>
 						<li>shopifyDomain={0}</li>
@@ -93,7 +94,7 @@ namespace ShopsterifyAuthentication
 			const int FLAG_BIG_PACKETS = 8;
 			const int FLAG_NO_PROMPT = 16;
 			
-			//Todo more config file strings to add. 
+			
 			string conString = "DRIVER={MySQL ODBC 5.1 Driver};"
 			+ "Server=" + databaseIP + ";"
 			+ "PORT=" + databasePort + ";"

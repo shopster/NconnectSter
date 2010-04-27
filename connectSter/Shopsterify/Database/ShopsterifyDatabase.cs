@@ -23,6 +23,7 @@ using Shopsterify.Shopster;
 using Shopsterify.Shopify;
 using Shopsterify.Shopsterify.Interfaces;
 using log4net;
+using EasyConfig;
 
 namespace Shopsterify.Database
 {
@@ -30,22 +31,30 @@ namespace Shopsterify.Database
 	class ShopsterifyDatabase
 	{
 
-		//TODO: put this stuff into a config file
-		const string databaseIP = "127.0.0.1";
-		const string databasePort = "3306";
-		const string databaseName = "shopsterify";
-		const string databaseUser = "root";
-		const string databasePw = "123.123";
-		const int FLAG_BIG_PACKETS = 8;
-		const int FLAG_NO_PROMPT = 16;
+		//loaded from the config file. 
+		private string databaseIP;
+		private string databasePort;
+		private string databaseName;
+		private string databaseUser;
+		private string databasePw;
+		private int FLAG_BIG_PACKETS = 8;
+		private int FLAG_NO_PROMPT = 16;
+
 		OdbcConnection dbConn;
 		static ILog logger = log4net.LogManager.GetLogger("ShopsterifyDatabase");
-
+		static ConfigurationManager configManager = ConfigurationManager.Instance();
 		public ShopsterifyDatabase()
 		{
 
+			SettingsGroup config = configManager.getSettings("ShopsterifyDatabase");
+			databaseIP = config.Settings["databaseIP"].GetValueAsString();
+			databasePort = config.Settings["databasePort"].GetValueAsString(); 
+			databaseName = config.Settings["databaseName"].GetValueAsString(); 
+			databaseUser = config.Settings["databaseUser"].GetValueAsString(); 
+			databasePw = config.Settings["databasePw"].GetValueAsString(); 
+
 			//Connect to the DB
-			//Todo more config file strings to add. 
+		
 			string conString = "DRIVER={MySQL ODBC 5.1 Driver};"
 			+ "Server=" + databaseIP + ";"
 			+ "PORT=" + databasePort + ";"
@@ -103,23 +112,12 @@ namespace Shopsterify.Database
 			}
 			catch (OdbcException dbEx)
 			{
-				//Todo: Logging and error handling
+				
 				logger.ErrorFormat("DeleteShopsterifyProductMapping()::Error: Database exception while attempting insert. " + dbEx.Message);
 				logger.ErrorFormat("DeleteShopsterifyProductMapping()::Error: Query w/ Error was: {0}", query);
 			}
 
 			return false;
-		}
-
-		public List<ShopsterifyProduct> InsertProductsForUser(ShopsterifyUser user, List<ShopsterifyProduct> insertProducts)
-		{
-			//Todo Finish this method
-			List<ShopsterifyProduct> returnList = new List<ShopsterifyProduct>(insertProducts.Count);
-			foreach (ShopsterifyProduct product in insertProducts)
-			{
-				return null;
-			}
-			throw new NotImplementedException("Not yet");
 		}
 
 		public bool InsertProductForUser(ShopsterifyUser user, int shopsterItemId, DateTime shopsterVersionDate, int shopifyItemId, DateTime shopifyVersionDate)
@@ -154,7 +152,7 @@ namespace Shopsterify.Database
 		public bool InsertProductForUser(ShopsterifyUser user, InventoryItemType shopsterProduct, ShopifyProduct shopifyProduct )
 		{
 			//TODO: have this take a bool to decide if shopster is master, for now true
-			//Todo: have actual dates from API
+			//Todo: have actual dates from Shopster API, when available.
 			return InsertProductForUser( user, Convert.ToInt32(shopsterProduct.ItemId), (DateTime.Now.ToUniversalTime()), (int) shopifyProduct.Id, ((DateTime) shopifyProduct.Variants[0].UpdatedAt).ToUniversalTime());
 		}
 
@@ -186,7 +184,7 @@ namespace Shopsterify.Database
 			}
 			catch (OdbcException dbEx)
 			{
-				//Todo: Logging and error handling
+				
 				logger.ErrorFormat("InsertProductForUser(): Database exception while attempting insert. " + dbEx.Message);
 			}
 
@@ -321,13 +319,11 @@ namespace Shopsterify.Database
 					}
 					catch (FormatException e) 
 					{
-						//todo log and error handle.
 						logger.DebugFormat("SelectAllUsers(): FormatException for returned userId({0}) or possibly sleepUntil DateTime. Exception Message is {1}", (string)sqlResult[0], e.Message);
 						continue; //Just abandon this user and move on.
 					}
 					catch (OverflowException e)
 					{
-						//todo log and error handle.
 						logger.DebugFormat("SelectAllUsers(): OverflowException for returned userId({0}) or possibly sleepUntil DateTime. Exception Message is {1}", (string)sqlResult[0], e.Message);
 						continue;
 					}
@@ -343,7 +339,6 @@ namespace Shopsterify.Database
 		}
 
 
-		//Todo: could make this return the list of successfully updated. But for now a count is good.
 		public int UpdateShopsterifyUsers(List<ShopsterifyUser> userList, DateTime newTime)
 		{
             string query = string.Empty;

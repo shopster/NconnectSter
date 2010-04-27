@@ -20,12 +20,8 @@ namespace Shopsterify
 	public class ShopifyAppAuth
 	{
 
-		//for FunAPP2 (test app)
-		//private string shopsterUser = "59708ef5d76eeb1770bb10e1cc24cea3";
-		//private string shopsterSecret = "01123428169f5a864bd67b3cd40926d0";
-
-		private string user;
-		private string secret;
+		private string user; //Shopify API Key
+		private string secret; //Shopify Secret Key
 
 		public ShopifyAppAuth(string user, string secret)
 		{

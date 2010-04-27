@@ -16,20 +16,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Shopster.API.Service.SDK.Core;
+using Shopsterify.Shopsterify;
+using EasyConfig;
 
 namespace Shopsterify
 {
 	public class MyApiContext : ApiContext
 	{
+		static ConfigurationManager configManager = ConfigurationManager.Instance();
 		public MyApiContext()
 			: base()
 		{
-			ConsumerKey = "38BB2224-A128-4785-87D3-6AE256EE3053";
-			ConsumerSecret = "6513A808-5B6A-4A71-89DA-85A46EFB92D3";
-			EndpointConfigurationName = "MainBinding_IMain";
+			SettingsGroup config = configManager.getSettings("MyApiContext");
 			
+			ConsumerKey = config.Settings["ConsumerKey"].GetValueAsString();
+			ConsumerSecret = config.Settings["ConsumerSecret"].GetValueAsString();
+			EndpointConfigurationName = config.Settings["EndpointConfigurationName"].GetValueAsString();
 
 			Environment = ApiEnvironmentType.Sandbox;
+			
 			//Environment = ApiEnvironmentType.Custom;
 			//OAuthEndpoint = new Uri("http://localhost/OAuth.ashx");
 			//ServiceEndpoint = new Uri("http://localhost:2333/Main.svc");

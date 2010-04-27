@@ -22,25 +22,41 @@ using System.Net;
 using log4net;
 using Shopsterify.Shopify;
 using System.Web;
+using EasyConfig;
+using Shopsterify.Shopsterify;
 
 namespace Shopsterify
 {
 	public class ShopifyCommunicator :IShopifyObject
 	{
-		//Todo : Move these into some form of config file.
+		// Give them some default values.
 		private string domain = ".myshopify.com";
 		private string protocol = "https://";
 		
-		private static ShopifyCommunicator instance = new ShopifyCommunicator();
+		private static ShopifyCommunicator instance;
 		private static ShopifyAppAuth appAuth;
 		
 		private static ILog apiLogger = log4net.LogManager.GetLogger("ShopifyAPICommunications");
 		private static ILog logger = log4net.LogManager.GetLogger("ShopifyCommunicator");
+		private static ConfigurationManager configs;
+		static ShopifyCommunicator()
+		{
+			configs = ConfigurationManager.Instance();
+			instance = new ShopifyCommunicator();
+
+		}
 
 		private ShopifyCommunicator()
-		{ 
-			//Todo: move this into some form of protected file or something.
-			appAuth = new ShopifyAppAuth("59708ef5d76eeb1770bb10e1cc24cea3", "01123428169f5a864bd67b3cd40926d0");
+		{
+			
+				//Todo: move this into some form of protected file or something.
+				SettingsGroup settings = configs.getSettings("ShopifyCommunicator");
+				appAuth = new ShopifyAppAuth(settings.Settings["appAuth_APIKey"].GetValueAsString(), settings.Settings["appAuth_APISharedSecret"].GetValueAsString());
+				domain = settings.Settings["domain"].GetValueAsString();
+				protocol = settings.Settings["protocol"].GetValueAsString();
+			
+			
+				
 		}
 
 		public static ShopifyCommunicator Instance()

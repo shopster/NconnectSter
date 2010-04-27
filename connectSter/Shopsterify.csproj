@@ -58,6 +58,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="log4net.config.xml" />
+    <Compile Include="EasyConfig\ConfigFile.cs" />
+    <Compile Include="EasyConfig\Setting.cs" />
+    <Compile Include="EasyConfig\SettingsGroup.cs" />
     <Compile Include="Shopify\Interfaces\IShopifyCollection.cs" />
     <Compile Include="Shopify\Interfaces\IShopifyMetafield.cs" />
     <Compile Include="Shopify\Interfaces\IShopifyAddress.cs" />
@@ -66,6 +69,7 @@
     <Compile Include="Shopify\ShopifyMetafield.cs" />
     <Compile Include="Shopify\ShopifyShippingLine.cs" />
     <Compile Include="Shopify\ShopifyTaxLine.cs" />
+    <Compile Include="Shopsterify\ConfigurationManager.cs" />
     <Compile Include="Shopsterify\CountryCodes.cs" />
     <Compile Include="Shopsterify\Database\Interfaces\IProductMap.cs" />
     <Compile Include="Shopsterify\Database\ShopsterifyProductMap.cs" />
@@ -116,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="connectSter.conf" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

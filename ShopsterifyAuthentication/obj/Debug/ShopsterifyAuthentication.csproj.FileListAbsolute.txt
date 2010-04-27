@@ -69,3 +69,15 @@ C:\ThirdPartyAPI\Shopify\MikesSandbox\TestApp\ShopsterifyAuthentication\bin\Data
 C:\ThirdPartyAPI\Shopify\MikesSandbox\TestApp\ShopsterifyAuthentication\bin\Data.xml
 C:\ThirdPartyAPI\Shopify\MikesSandbox\TestApp\ShopsterifyAuthentication\bin\Settings.pdb
 C:\ThirdPartyAPI\Shopify\MikesSandbox\TestApp\ShopsterifyAuthentication\bin\DbObjectModel.pdb
+C:\ThirdPartyAPI\Shopify\MikesSandbox\connectSter\ShopsterifyAuthentication\bin\ShopsterifyAuthentication.dll
+C:\ThirdPartyAPI\Shopify\MikesSandbox\connectSter\ShopsterifyAuthentication\bin\ShopsterifyAuthentication.pdb
+C:\ThirdPartyAPI\Shopify\MikesSandbox\connectSter\ShopsterifyAuthentication\bin\Shopster.API.Service.SDK.dll
+C:\ThirdPartyAPI\Shopify\MikesSandbox\connectSter\ShopsterifyAuthentication\bin\log4net.dll
+C:\ThirdPartyAPI\Shopify\MikesSandbox\connectSter\ShopsterifyAuthentication\bin\DotNetOpenAuth.dll
+C:\ThirdPartyAPI\Shopify\MikesSandbox\connectSter\ShopsterifyAuthentication\bin\log4net.xml
+C:\ThirdPartyAPI\Shopify\MikesSandbox\connectSter\ShopsterifyAuthentication\bin\Shopster.API.Service.SDK.pdb
+C:\ThirdPartyAPI\Shopify\MikesSandbox\connectSter\ShopsterifyAuthentication\bin\Shopster.API.Service.SDK.xml
+C:\ThirdPartyAPI\Shopify\MikesSandbox\connectSter\ShopsterifyAuthentication\bin\DotNetOpenAuth.xml
+C:\ThirdPartyAPI\Shopify\MikesSandbox\connectSter\ShopsterifyAuthentication\obj\Debug\ResolveAssemblyReference.cache
+C:\ThirdPartyAPI\Shopify\MikesSandbox\connectSter\ShopsterifyAuthentication\obj\Debug\ShopsterifyAuthentication.dll
+C:\ThirdPartyAPI\Shopify\MikesSandbox\connectSter\ShopsterifyAuthentication\obj\Debug\ShopsterifyAuthentication.pdb

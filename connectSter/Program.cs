@@ -50,24 +50,12 @@ namespace Shopsterify
 			ILog log = LogManager.GetLogger("Shopsterify");
 
 
-			//TODO: create code that captures this info and works with insertion into db
-			//Shopster's App auth tokens on Shopify
-			string ShopsterAuthToken = "qpGmu1KwOkX+WGB0I2Y7zvgo/Yc=";
-			string ShopsterAuthSecret = "SDLHOywjXBDXn96NiPc9ELs+HS8=";
-
-
-
 			// Authentication with Shopster API
 			MyApiContext apiContext = new MyApiContext();
 			apiContext.AccessToken = ShopsterAuthToken;
 			apiContext.AccessTokenSecret = ShopsterAuthSecret;
 
 			ShopsterifyController controller = ShopsterifyController.Instance();
-
-			//Some Calls to the controller
-			
-
-			
 			
 			int sleepTime = 1024;
 			while (true)
@@ -76,7 +64,9 @@ namespace Shopsterify
 				log.InfoFormat("Found {0} ShopsterifyUsers, beginning sync for each user.", userList.Count);
 
 				//Todo: add call to update sleepUntil Timestamps on users (based on how long they should sleep).
-				//todo: Also throughout code, we should add points where the user should sleep, such as in shopifycommunicator, if they have used up their call limit (per 10 mins) then we should sleep that user for 10 mins (or a little less)
+				//todo: Also throughout code, we should add points where the user should sleep
+				//		such as in shopifycommunicator, if they have used up their call limit (per 10 mins)
+				//		then we should sleep that user for 10 mins
 
 				int actions = 0;
 				List<ShopsterifySyncJob> myJobs = new List<ShopsterifySyncJob>(userList.Count);
@@ -105,24 +95,22 @@ namespace Shopsterify
 					actions += job.actionsPerformed;
 				}
 				
-				//if (actions == 0)
-				//{
-				//    //Double the amount of time we sleep if there was nothing to do last time.
-				//    //Maxes out at 8.7 minutes and stays there until something happens.
-				//    if (sleepTime < 32768)
-				//    {
-				//        sleepTime *= 2;
-				//    }
-				//}
-				//else
-				//{
-				//    sleepTime = 1024; //1 second
-				//}
+				if (actions == 0)
+				{
+				    //Double the amount of time we sleep if there was nothing to do last time.
+				    //Maxes out at 4.3 minutes and stays there until something happens.
+					if (sleepTime < 262144)
+				    {
+				        sleepTime *= 2;
+				    }
+				}
+				else
+				{
+				    sleepTime = 1024; //1 second
+				}
 
-				//todo update this logging to work for each user.
 				log.InfoFormat("Completed {0} actions going to sleep for {1} ms.", actions, sleepTime);
 				Thread.Sleep(sleepTime);
-
 			}
 		}
 	}

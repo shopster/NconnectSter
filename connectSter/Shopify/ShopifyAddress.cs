@@ -66,7 +66,7 @@ namespace Shopsterify.Shopify
 
 
 		/// <summary>
-		/// Create a ShopifyAddress
+		/// Create a ShopifyAddress w/ all available parameters
 		/// </summary>
 		/// <param name="address1"></param>
 		/// <param name="address2"></param>

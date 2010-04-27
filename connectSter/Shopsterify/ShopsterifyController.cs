@@ -33,10 +33,10 @@ namespace Shopsterify.Shopsterify
 	public class ShopsterifyController
 	{
 		
-		private ShopsterifyDatabase database;
+		private static ShopsterifyDatabase database;
 		private static ShopsterifyController instance = new ShopsterifyController();
-		private ShopsterCommunicator shopsterComm;
-		private ShopifyCommunicator shopifyComm;
+		private static ShopsterCommunicator shopsterComm;
+		private static ShopifyCommunicator shopifyComm;
 		private ShopifyMetafield metaField_ShopsterProductId;
 	
 		private static ILog logger = log4net.LogManager.GetLogger("ShopsterifyController");
@@ -355,7 +355,7 @@ namespace Shopsterify.Shopsterify
 			//Todo: Decide the lowest DetailGroup needed
 			try
 			{
-				shopsterList = shopsterComm.GetAllInventoryItemsForUser(apiContext, "All");
+				shopsterList = shopsterComm.GetAllInventoryItemsForUser(apiContext, "All").Where(item =>item.IsStoreVisible == true).Select(item => item).ToList<InventoryItemType>();
 				productMap = new ShopsterifyProductMap(user);
 				shopifyItems = shopifyComm.GetAllProducts(shopifyAuth);
 				shopifyMapping = new ShopifyMetafieldMap(shopifyComm, shopifyAuth);

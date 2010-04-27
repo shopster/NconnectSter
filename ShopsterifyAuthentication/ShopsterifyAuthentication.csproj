@@ -30,10 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Shopster.API.Service.Lib, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\DASNTrunk\Shared\Shopster.API.Service.Lib.dll</HintPath>
-    </Reference>
     <Reference Include="Shopster.API.Service.SDK, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\DASNTrunk\Shared\Shopster.API.Service.SDK.dll</HintPath>
