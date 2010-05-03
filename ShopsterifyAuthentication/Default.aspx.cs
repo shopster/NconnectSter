@@ -26,6 +26,8 @@ using Shopsterify;
 using System.IO;
 using System.Collections.Generic;
 using System.Data.Odbc;
+using System.Xml;
+using System.Net;
 
 namespace ShopsterifyAuthentication
 {
@@ -44,7 +46,7 @@ namespace ShopsterifyAuthentication
 		}
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			return;
+			
 			if (Request.QueryString.HasKeys())
 			{
 				
@@ -75,10 +77,15 @@ namespace ShopsterifyAuthentication
 				}
 				else if ( nextIsOAuth() )
 				{
-
-					//Todo: verify that signature == our app auth. (stored in config)
-	
-					this.doShopsterOAuth();
+					
+					//Todo: verify that signature is valid
+					//Currently we just check to see that the token is usable. If so, pretty good chance its from shopify.
+					if (this.testToken())
+					{
+						this.doShopsterOAuth();
+					}
+					
+					//Todo loging and errors
 				}
 			}
 
@@ -146,10 +153,6 @@ namespace ShopsterifyAuthentication
 			return false;
 		}
 
-		
-
-
-
 		protected void doShopsterOAuth()
 		{
 			var callback = new UriBuilder(Request.Url);
@@ -167,7 +170,9 @@ namespace ShopsterifyAuthentication
 				&& Request.QueryString["timestamp"] != null
 				&& Request.QueryString["signature"] != null 
 				&& Request.QueryString["t"] != null
-				&& Request.QueryString.Keys.Count == 4)
+				&& Request.QueryString["t"].Length == 32
+				&& Request.QueryString.Keys.Count == 4
+				)
 			{
 				return true;
 			}
@@ -185,6 +190,7 @@ namespace ShopsterifyAuthentication
 					&& Request.QueryString["t"] != null
 					&& Request.QueryString["uid"] != null
 					&& Request.QueryString.Keys.Count == 7
+					&& Request.QueryString["t"].Length == 32
 				)
 
 			{
@@ -193,6 +199,79 @@ namespace ShopsterifyAuthentication
 			return false;
 
 
+
 		}
+
+		/// <summary>
+		/// Tests that "t" is a valid key by making an API call. 
+		/// </summary>
+		/// <returns></returns>
+		private bool testToken()
+		{
+			if (!nextIsOAuth()) //this may be redundant, but it helps avoid exceptions.
+			{ 
+				return false; 
+			}
+
+			//Todo: add easyconfig and use the keys found in connectSter.conf 
+			const string shopifySecretKey = "01123428169f5a864bd67b3cd40926d0";
+			const string shopifyPublicKey = "59708ef5d76eeb1770bb10e1cc24cea3";
+			//create XmlUrlResover so we can use authentication
+			XmlUrlResolver urlResolver = new XmlUrlResolver();
+			CredentialCache cCache = new CredentialCache();
+			string storePassword = HashString(shopifySecretKey + Request.QueryString["t"]);
+			string path = "https://" + Request.QueryString["shop"] + "/admin/shop.xml";
+			
+			cCache.Add(new Uri(path), "Basic", new NetworkCredential(shopifyPublicKey, storePassword));
+			urlResolver.Credentials = cCache;
+			
+			//Settings for the XmlReader
+			XmlReaderSettings settings = new XmlReaderSettings();
+			settings.XmlResolver = urlResolver;
+
+			XmlDocument xDoc = new XmlDocument();
+
+			//Try to create the connection, create our Reader
+			try
+			{
+			
+				XmlReader xRead = XmlReader.Create(path, settings);
+				xDoc.Load(xRead);
+				
+				xRead.Close();
+				if (xDoc.DocumentElement.Name == "shop")
+					return true;
+			}
+			catch (Exception e)
+			{
+				//Log the exception
+				//logger.Error("ShopifyCommunicator::ShopifyGet() web exception: " + web.Message + " " + web.Response);
+		
+			}
+
+		
+			return false;
+
+
+		}
+
+
+
+		/// <summary>
+		/// Hashes(MD5) the given value. Typically used as "HashString(shopsterSecret + storeAuthToken)"
+		/// </summary>
+		/// <param name="Value">String to be hashed</param>
+		/// <returns>Returns hex encoded password</returns>
+		private string HashString(string Value)
+		{
+			System.Security.Cryptography.MD5CryptoServiceProvider x = new System.Security.Cryptography.MD5CryptoServiceProvider();
+			byte[] data = System.Text.Encoding.ASCII.GetBytes(Value);
+			data = x.ComputeHash(data);
+			string ret = "";
+			for (int i = 0; i < data.Length; i++)
+				ret += data[i].ToString("x2").ToLower();
+			return ret;
+		}
+
 	}
 }
