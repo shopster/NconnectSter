@@ -1,0 +1,13 @@
+C:\Temp\connectSter\connectSter\bin\Debug\Shopsterify.exe.config
+C:\Temp\connectSter\connectSter\obj\Debug\ResolveAssemblyReference.cache
+C:\Temp\connectSter\connectSter\bin\Debug\Shopsterify.exe
+C:\Temp\connectSter\connectSter\bin\Debug\Shopsterify.pdb
+C:\Temp\connectSter\connectSter\bin\Debug\log4net.dll
+C:\Temp\connectSter\connectSter\bin\Debug\Shopster.API.Service.SDK.dll
+C:\Temp\connectSter\connectSter\bin\Debug\DotNetOpenAuth.dll
+C:\Temp\connectSter\connectSter\bin\Debug\Shopster.API.Service.SDK.pdb
+C:\Temp\connectSter\connectSter\bin\Debug\Shopster.API.Service.SDK.xml
+C:\Temp\connectSter\connectSter\bin\Debug\DotNetOpenAuth.xml
+C:\Temp\connectSter\connectSter\obj\Debug\Shopsterify.exe
+C:\Temp\connectSter\connectSter\obj\Debug\Shopsterify.pdb
+C:\Temp\connectSter\connectSter\bin\Debug\connectSter.conf

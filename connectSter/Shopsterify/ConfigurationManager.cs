@@ -14,7 +14,8 @@ namespace Shopsterify.Shopsterify
 
 		private ConfigurationManager()
 		{
-			configFileName = "C:\\ThirdPartyAPI\\Shopify\\MikesSandbox\\connectSter\\connectSter\\connectSter.conf";
+
+			configFileName = "connectSter.conf";
 			confFile = new ConfigFile(configFileName);
 			if (!VerifyConfigFile())
 			{

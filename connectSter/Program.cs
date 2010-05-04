@@ -32,17 +32,24 @@ using Shopsterify.Database;
 using Shopsterify.Shopsterify;
 using Shopsterify.Shopster;
 using log4net;
+using EasyConfig;
 
 
 namespace Shopsterify
 {
 	class Program
-	{
+	{ 
 
 
 		static void Main(string[] args)
 		{
 			Console.OutputEncoding = Encoding.UTF8;
+
+			ConfigurationManager configs = ConfigurationManager.Instance();
+			SettingsGroup settings = configs.getSettings("MyApiContext");
+			string ShopsterAuthToken = settings.Settings["ConsumerKey"].GetValueAsString();
+			string ShopsterAuthSecret = settings.Settings["ConsumerSecret"].GetValueAsString();
+			
 
 			//Logging 
 			FileInfo logConfigFile = new FileInfo("../../log4net.config.xml");
