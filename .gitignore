@@ -1,0 +1,5 @@
+*.suo
+connectSter/obj
+connectSter/bin
+_ReSharper.connectSter
+connectSter.5.0.ReSharper.user
