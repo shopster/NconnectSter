@@ -1,10 +1,6 @@
 *.suo
-connectSter/obj
-connectSter/bin
-connectSter/*.user
-ShopsterifyAuthentication/obj
-ShopsterifyAuthentication/bin
-ShopsterifyAuthentication/*.user
-connectSter/connectSter.conf
+*.user
+bin
+obj
 _ReSharper.connectSter
 connectSter.5.0.ReSharper.user

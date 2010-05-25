@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopsterify", "connectSter\Shopsterify.csproj", "{0F21010C-37F1-40CD-9AEA-47D65C322241}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Connectster", "Connectster\Connectster.csproj", "{0F21010C-37F1-40CD-9AEA-47D65C322241}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopsterifyAuthentication", "ShopsterifyAuthentication\ShopsterifyAuthentication.csproj", "{62C10844-049C-487B-A336-A746E788D59B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConnectsterAuthentication", "ConnectsterAuthentication\ConnectsterAuthentication.csproj", "{62C10844-049C-487B-A336-A746E788D59B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

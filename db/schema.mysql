@@ -76,7 +76,7 @@ CREATE TABLE `shopifyuser` (
   `shopifyAccountType` int(2) unsigned NOT NULL,
   PRIMARY KEY (`subdomain`),
   KEY `FK_shopifyAccountType` (`shopifyAccountType`),
-  CONSTRAINT `FK_shopifyAccountType` FOREIGN KEY (`shopifyAccountType`) REFERENCES `shopsteraccounttype` (`id`)
+  CONSTRAINT `FK_shopifyAccountType` FOREIGN KEY (`shopifyAccountType`) REFERENCES `shopifyaccounttype` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
@@ -121,6 +121,19 @@ INSERT INTO `shopsteraccounttype` (`id`,`name`,`Products`,`NetworkProducts`,`Mon
  (4,'PowerMerchant Enterprise','20000','20000',4096000);
 /*!40000 ALTER TABLE `shopsteraccounttype` ENABLE KEYS */;
 
+--
+-- Dumping data for table `shopifyaccounttype`
+--
+
+/*!40000 ALTER TABLE `shopifyaccounttype` DISABLE KEYS */;
+insert into `shopifyaccounttype` (`id`, `transactionFee`, `skus`, `storage`, `monthlyPrice`, `name`) VALUES
+(1, 0, 100, 102400, 0, 'development'),
+(2, 2, 100, 102400, 24, 'basic'),
+(3, 1, 2500, 512000, 59, 'professional'),
+(4, 1, 10000, 1024000, 99, 'business'),
+(5, 1, 25000, 2560000, 249, 'enterprise'),
+(6, 0, 50000, 5120000, 699, 'premier');
+/*!40000 ALTER TABLE `shopifyaccounttype` ENABLE KEYS */;
 
 --
 -- Definition of table `shopsterifyorder`
@@ -202,7 +215,7 @@ CREATE TABLE `shopsteruser` (
   `ShopsterAccountType` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_shopsteraccounttype` (`ShopsterAccountType`),
-  CONSTRAINT `FK_shopsteraccounttype` FOREIGN KEY (`ShopsterAccountType`) REFERENCES `shopifyaccounttype` (`id`)
+  CONSTRAINT `FK_shopsteraccounttype` FOREIGN KEY (`ShopsterAccountType`) REFERENCES `shopsteraccounttype` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=206787 DEFAULT CHARSET=latin1 COMMENT='represents information about a shopster user in shopsterify';
 
 
