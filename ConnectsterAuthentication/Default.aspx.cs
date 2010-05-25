@@ -11,18 +11,19 @@
 //	limitations under the License.using System;
 
 using System;
+using System.Configuration;
 using System.Data;
-using System.Data.Odbc;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web.UI;
 using System.Xml;
+using MySql.Data.MySqlClient;
 using Shopsterify;
 
-namespace ShopsterifyAuthentication
+namespace ConnectsterAuthentication
 {
-    public partial class _Default : Page
+    public partial class Default : Page
     {
         protected MyApiContext ApiContext
         {
@@ -38,22 +39,22 @@ namespace ShopsterifyAuthentication
         {
             if (!Request.QueryString.HasKeys()) return;
 
-            if (nextIsOAuth())
+            if (NextIsOAuth())
             {
                 //Todo: verify that signature is valid
                 //Currently we just check to see that the token is usable. If so, pretty good chance its from shopify.
-                if (testToken())
+                if (TestToken())
                 {
-                    doShopsterOAuth();
+                    DoShopsterOAuth();
                 }
 
                 //Todo loging and errors
             }
-            else if (nextIsBackToShopify())
+            else if (NextIsBackToShopify())
             {
                 ApiContext.FinishUserAuthorization();
 
-                if (storeUserInDatabase())
+                if (StoreUserInDatabase())
                 {
                     Response.Redirect("https://" + Request.QueryString["shop"] + "/admin/applications");
                 }
@@ -72,76 +73,55 @@ namespace ShopsterifyAuthentication
 						</ul></p>
 						",
                             Request.QueryString["shop"], Request.QueryString["t"], Request.QueryString["uid"],
-                            Request.QueryString["uid"], Request.QueryString["oauth_verifier"],
-                            Request.QueryString["oauth_token"]);
+                            Request.QueryString["uid"], Request.QueryString["oauth_verifier"]);
                 }
             }
         }
 
-        private bool storeUserInDatabase()
+        private bool StoreUserInDatabase()
         {
-            const string databaseIP = "127.0.0.1";
-            const string databasePort = "3306";
-            const string databaseName = "shopsterify";
-            const string databaseUser = "root";
-            const string databasePw = "99Mon.keys";
-            const int FLAG_BIG_PACKETS = 8;
-            const int FLAG_NO_PROMPT = 16;
+            var connectionString = ConfigurationManager.ConnectionStrings["connectster"].ConnectionString;
+            var dbConn = new MySqlConnection(connectionString);
 
-            string conString = "DRIVER={MySQL ODBC 5.1 Driver};"
-                               + "Server=" + databaseIP + ";"
-                               + "PORT=" + databasePort + ";"
-                               + "DATABASE=" + databaseName + ";"
-                               + "UID=" + databaseUser + ";"
-                               + "PWD=" + databasePw + ";"
-                               + "OPTION=" + (FLAG_BIG_PACKETS + FLAG_NO_PROMPT) + ";";
-
-            var dbConn = new OdbcConnection(conString);
-
-            try
+            if (dbConn.State == ConnectionState.Closed)
             {
-                if (dbConn.State == ConnectionState.Closed)
+                dbConn.Open();
+                if (dbConn.State == ConnectionState.Open)
                 {
-                    dbConn.Open();
-                    if (dbConn.State == ConnectionState.Open)
+                    //(in shopsterAuthToken CHAR(28), in shopsterAuthSecret CHAR(28), in shopsterAccountType INT(10),
+                    //subdomain Varchar(255), in userStatus INT(4), in replicationLevel Int(4), in shopifyAuthToken Char(32), in shopifyAccountType INT(2))
+                    var shopifyDomain = ConfigurationManager.AppSettings["ShopifyDomain"];
+
+                    var query =
+                        String.Format(
+                            "CALL InsertConnectsterUser({0},'{1}','{2}',{3}, '{4}', {5},{6}, '{7}', {8});",
+                            Request.QueryString["uid"], //{0} shopsterUserId
+                            ApiContext.AccessToken, //{1} shopsterAuthToken
+                            ApiContext.AccessTokenSecret, //{2} shopsterAuthSecret
+                            1, //{3} shopsterAccountType
+                            Request.QueryString["shop"].Replace(shopifyDomain, string.Empty), //{4} subdomain
+                            1, //{5} userStatus
+                            1, //{6} replicationLevel
+                            Request.QueryString["t"], //{7} shopifyAuthToken
+                            1 //{8} shopifyAccountType
+                            );
+
+                    var sqlCommand = new MySqlCommand(query, dbConn);
+                    var sqlResult = sqlCommand.ExecuteReader();
+
+                    if (sqlResult.Read())
                     {
-                        //(in shopsterAuthToken CHAR(28), in shopsterAuthSecret CHAR(28), in shopsterAccountType INT(10),
-                        //subdomain Varchar(255), in userStatus INT(4), in replicationLevel Int(4), in shopifyAuthToken Char(32), in shopifyAccountType INT(2))
-
-                        string query =
-                            String.Format(
-                                "CALL InsertShopsterifyUser({0},'{1}','{2}',{3}, '{4}', {5},{6}, '{7}', {8});",
-                                Request.QueryString["uid"], //{0} shopsterUserId
-                                ApiContext.AccessToken, //{1} shopsterAuthToken
-                                ApiContext.AccessTokenSecret, //{2} shopsterAuthSecret
-                                1, //{3} shopsterAccountType
-                                Request.QueryString["shop"].Replace(".myshopify.com", string.Empty), //{4} subdomain
-                                1, //{5} userStatus
-                                1, //{6} replicationLevel
-                                Request.QueryString["t"], //{7} shopifyAuthToken
-                                1 //{8} shopifyAccountType
-                                );
-
-                        var sqlCommand = new OdbcCommand(query, dbConn);
-                        OdbcDataReader sqlResult = sqlCommand.ExecuteReader();
-                        var res = sqlResult.Read();
-                        if (res)
-                        {
-                            //So long as there wasnt an exception we're good. 
-                            return true;
-                        }
+                        //So long as there wasnt an exception we're good. 
+                        return true;
                     }
                 }
             }
-            catch (OdbcException dbEx)
-            {
-                throw;
-            }
+
 
             return false;
         }
 
-        protected void doShopsterOAuth()
+        protected void DoShopsterOAuth()
         {
             var callback = new UriBuilder(Request.Url);
             callback.Query = String.Format("shop={0}&timestamp={1}&signature={2}&t={3}"
@@ -153,7 +133,7 @@ namespace ShopsterifyAuthentication
             ApiContext.StartUserAuthorization(callback.Uri, null);
         }
 
-        private bool nextIsOAuth()
+        private bool NextIsOAuth()
         {
             if (Request.QueryString["shop"] != null
                 && Request.QueryString["timestamp"] != null
@@ -169,7 +149,7 @@ namespace ShopsterifyAuthentication
             return false;
         }
 
-        private bool nextIsBackToShopify()
+        private bool NextIsBackToShopify()
         {
             if (
                 Request.QueryString["oauth_verifier"] != null
@@ -193,21 +173,22 @@ namespace ShopsterifyAuthentication
         /// Tests that "t" is a valid key by making an API call. 
         /// </summary>
         /// <returns></returns>
-        private bool testToken()
+        private bool TestToken()
         {
-            if (!nextIsOAuth()) //this may be redundant, but it helps avoid exceptions.
+            if (!NextIsOAuth()) //this may be redundant, but it helps avoid exceptions.
             {
                 return false;
             }
 
-            //Todo: add easyconfig and use the keys found in connectSter.conf 
-            const string shopifyPublicKey = "6b40c288a08dcbdc3a2a336b60e054c9";
-            const string shopifySecretKey = "12fdc51e8f5ab504cd7381ffb76999c7";
+            var shopifyPublicKey = ConfigurationManager.AppSettings["ShopifyAppAuthApiKey"];
+            var shopifySecretKey = ConfigurationManager.AppSettings["ShopifyAppAuthApiSharedSecret"];
+            var shopifyProtocol = ConfigurationManager.AppSettings["ShopifyProtocol"];
+
             //create XmlUrlResover so we can use authentication
             var urlResolver = new XmlUrlResolver();
             var cCache = new CredentialCache();
-            string storePassword = HashString(shopifySecretKey + Request.QueryString["t"]);
-            string path = "https://" + Request.QueryString["shop"] + "/admin/shop.xml";
+            var storePassword = HashString(shopifySecretKey + Request.QueryString["t"]);
+            var path = String.Format("{0}{1}/admin/shop.xml", shopifyProtocol, Request.QueryString["shop"]) ;
 
             cCache.Add(new Uri(path), "Basic", new NetworkCredential(shopifyPublicKey, storePassword));
             urlResolver.Credentials = cCache;
@@ -219,36 +200,23 @@ namespace ShopsterifyAuthentication
             var xDoc = new XmlDocument();
 
             //Try to create the connection, create our Reader
-//            try
-//            {
-                XmlReader xRead = XmlReader.Create(path, settings);
-                xDoc.Load(xRead);
+            XmlReader xRead = XmlReader.Create(path, settings);
+            xDoc.Load(xRead);
 
-                xRead.Close();
-                if (xDoc.DocumentElement.Name == "shop")
-                    return true;
-//            }
-//            catch (Exception e)
-//            {
-//                throw;
-                //Log the exception
-                //logger.Error("ShopifyCommunicator::ShopifyGet() web exception: " + web.Message + " " + web.Response);
-//            }
-
-
-            return false;
+            xRead.Close();
+            return xDoc.DocumentElement != null && xDoc.DocumentElement.Name == "shop";
         }
 
 
         /// <summary>
         /// Hashes(MD5) the given value. Typically used as "HashString(shopsterSecret + storeAuthToken)"
         /// </summary>
-        /// <param name="Value">String to be hashed</param>
+        /// <param name="value">String to be hashed</param>
         /// <returns>Returns hex encoded password</returns>
-        private string HashString(string Value)
+        private static string HashString(string value)
         {
             var x = new MD5CryptoServiceProvider();
-            byte[] data = Encoding.ASCII.GetBytes(Value);
+            byte[] data = Encoding.ASCII.GetBytes(value);
             data = x.ComputeHash(data);
             string ret = "";
             for (int i = 0; i < data.Length; i++)
