@@ -21,7 +21,7 @@ namespace Connectster.Server
 	/// <summary>
 	/// Mapping of ShopsterProduct to ShopifyProduct 
 	/// </summary>
-	public class ShopsterifyProduct : IMappedProduct
+	public class ConnectsterProduct : IMappedProduct
 	{
 		internal InventoryItemType shopsterItem;
 		internal ShopifyProduct shopifyItem;
@@ -33,7 +33,7 @@ namespace Connectster.Server
 		public DateTime DestinationDate { get; set; }
 	
 
-		public ShopsterifyProduct(int sourceId, DateTime sourceVersion , int destinationId, DateTime destinationVersion)
+		public ConnectsterProduct(int sourceId, DateTime sourceVersion , int destinationId, DateTime destinationVersion)
 		{
 			SourceId = sourceId;
 			//Todo get source date from shopster
@@ -44,7 +44,7 @@ namespace Connectster.Server
 			this.shopsterItem = null;
 		}
 
-		public ShopsterifyProduct(InventoryItemType shopsterItem, ShopifyProduct shopifyItem)
+		public ConnectsterProduct(InventoryItemType shopsterItem, ShopifyProduct shopifyItem)
 		{
 			this.shopsterItem = shopsterItem;
 			this.shopifyItem = shopifyItem;

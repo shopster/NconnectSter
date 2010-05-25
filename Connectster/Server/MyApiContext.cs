@@ -11,25 +11,20 @@
 //	limitations under the License.using System;
 
 
-using Connectster.EasyConfig;
-using Connectster.Server;
+using System.Configuration;
 using Shopster.API.Service.SDK.Core;
 
-namespace Connectster
+namespace Connectster.Server
 {
 	public class MyApiContext : ApiContext
 	{
-		static ConfigurationManager configManager = ConfigurationManager.Instance();
 		public MyApiContext()
-			: base()
 		{
-			SettingsGroup config = configManager.getSettings("MyApiContext");
-			
-			ConsumerKey = config.Settings["ConsumerKey"].GetValueAsString();
-			ConsumerSecret = config.Settings["ConsumerSecret"].GetValueAsString();
-			EndpointConfigurationName = config.Settings["EndpointConfigurationName"].GetValueAsString();
 
-			Environment = ApiEnvironmentType.Sandbox;
+            ConsumerKey = ConfigurationManager.AppSettings["ShopsterConsumerKey"];
+            ConsumerSecret = ConfigurationManager.AppSettings["ShopsterConsumerSecret"];
+            EndpointConfigurationName = ConfigurationManager.AppSettings["ShopsterEndpointConfigurationName"];
+			Environment = ApiEnvironmentType.Sandbox; //TODO Remove hardcoded reference to sandbox environment
 			
 			//Environment = ApiEnvironmentType.Custom;
 			//OAuthEndpoint = new Uri("http://localhost/OAuth.ashx");

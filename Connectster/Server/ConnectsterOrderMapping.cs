@@ -2,9 +2,9 @@
 
 namespace Connectster.Server
 {
-	public class ShopsterifyOrderMapping: IOrderMapping
+	public class ConnectsterOrderMapping: IOrderMapping
 	{
-		public ShopsterifyOrderMapping(IOrder source, IOrder dest)
+		public ConnectsterOrderMapping(IOrder source, IOrder dest)
 		{
 
 			SourceOrder = source;

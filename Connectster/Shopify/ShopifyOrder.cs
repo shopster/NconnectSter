@@ -220,29 +220,29 @@ namespace Connectster.Shopify
 
 				//TODO clean this up, clearly this field is far to restricted.
 				//If we have shipping lines, this is the best quality info.
-				if (ShippingLines != null && ShippingLines.Count() != 0)
-				{
-					StringBuilder shippingString = new StringBuilder();
-
-					foreach (ShopifyShippingLine shippingLine in ShippingLines)
-					{
-						shippingString.Append(shippingLine.Title + ", ");
-					}
-
-					return shippingString.ToString().Trim().TrimEnd(',');
-				}
-				else //If no shipping lines, then try to guess the status from the individual items
-				{
-					foreach (ShopifyLineItem lineItem in LineItems)
-					{
-						if (lineItem.RequiresShipping)
-						{
-							return "Shipping required. Method not specified.";
-						}
-
-					}
-					return "No shipping required.";
-				}
+//				if (ShippingLines != null && ShippingLines.Count() != 0)
+//				{
+//					StringBuilder shippingString = new StringBuilder();
+//
+//					foreach (ShopifyShippingLine shippingLine in ShippingLines)
+//					{
+//						shippingString.Append(shippingLine.Title + ", ");
+//					}
+//
+//					return shippingString.ToString().Trim().TrimEnd(',');
+//				}
+//				else //If no shipping lines, then try to guess the status from the individual items
+//				{
+//					foreach (ShopifyLineItem lineItem in LineItems)
+//					{
+//						if (lineItem.RequiresShipping)
+//						{
+//							return "Shipping required. Method not specified.";
+//						}
+//
+//					}
+//					return "No shipping required.";
+//				}
 
 
 			}

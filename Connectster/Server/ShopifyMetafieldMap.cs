@@ -16,7 +16,7 @@ using Connectster.Shopify;
 
 namespace Connectster.Server
 {
-	//TODO: can this class and ShopsterifyProduct map inherit alot of actions from e parent class?
+	//TODO: can this class and ConnectsterProduct map inherit alot of actions from e parent class?
 	public class ShopifyMetafieldMap : ProductMap<ShopifyMetafieldMapping>
 	{
 

@@ -16,16 +16,16 @@ using log4net;
 namespace Connectster.Server
 {
 
-	public class ShopsterifyUser
+	public class ConnectsterUser
 	{
 		private static ILog logger  = LogManager.GetLogger("Shopsterify");
 		
-		public ShopsterifyUser(int shopsterUser, string shopifyUser, DateTime sleepUntil)
+		public ConnectsterUser(int shopsterUser, string shopifyUser, DateTime sleepUntil)
 		{
 			this.CommonConstructor(shopsterUser, shopifyUser, sleepUntil);
 		}
 		
-		public ShopsterifyUser(int shopsterUser, string shopifyUser)
+		public ConnectsterUser(int shopsterUser, string shopifyUser)
 		{
 		
 			this.CommonConstructor(shopsterUser,shopifyUser, DateTime.MinValue);

@@ -14,13 +14,13 @@ using System.Threading;
 
 namespace Connectster.Server
 {
-	class ShopsterifySyncJob
+	class ConnectsterSyncJob
 	{
-		private ShopsterifyController controller;
-		public ShopsterifyUser myUser;
+		private ConnectsterController controller;
+		public ConnectsterUser myUser;
 		public int actionsPerformed;
 		private ManualResetEvent myEvent;
-		public ShopsterifySyncJob(ShopsterifyController controller, ShopsterifyUser myUser, ManualResetEvent myEvent)
+		public ConnectsterSyncJob(ConnectsterController controller, ConnectsterUser myUser, ManualResetEvent myEvent)
 		{
 			this.controller = controller;
 			this.myUser = myUser;
