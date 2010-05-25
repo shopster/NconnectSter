@@ -11,14 +11,8 @@
 //	limitations under the License.using System;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Shopsterify.Shopsterify.Database.Interfaces;
-using Shopsterify.Shopsterify.Interfaces;
-using Shopsterify.Database;
 
-namespace Shopsterify.Shopsterify.Database
+namespace Connectster.Server.Database
 {
 	public class ShopsterifyProductMap: ProductMap<ShopsterifyProduct>
 	{

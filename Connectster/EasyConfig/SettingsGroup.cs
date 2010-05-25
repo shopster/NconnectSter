@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EasyConfig
+namespace Connectster.EasyConfig
 {
 	/// <summary>
 	/// A group of settings from a configuration file.

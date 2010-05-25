@@ -11,13 +11,11 @@
 //	limitations under the License.using System;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Shopsterify.Shopsterify.Interfaces;
+using Connectster.Server.Interfaces;
+using Connectster.Shopify;
 using Shopster.API.Service.SDK.Core.Soap;
 
-namespace Shopsterify.Shopsterify
+namespace Connectster.Server
 {
 
 	/// <summary>

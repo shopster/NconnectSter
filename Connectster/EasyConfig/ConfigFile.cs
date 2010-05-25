@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace EasyConfig
+namespace Connectster.EasyConfig
 {
 	/// <summary>
 	/// Represents a configuration file.

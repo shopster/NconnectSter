@@ -11,15 +11,11 @@
 //	limitations under the License.using System;
 
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using Connectster.EasyConfig;
+using Connectster.Server;
 using Shopster.API.Service.SDK.Core;
-using Shopsterify.Shopsterify;
-using EasyConfig;
 
-namespace Shopsterify
+namespace Connectster
 {
 	public class MyApiContext : ApiContext
 	{

@@ -11,16 +11,13 @@
 //	limitations under the License.using System;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Xml;
-using System.Net;
+using Connectster.Shopify.Interfaces;
 using log4net;
 using System.Xml.Serialization;
-using System.IO;
 
-namespace Shopsterify.Shopify
+namespace Connectster.Shopify
 {
 	public class ShopifyResponse<T> where T : IShopifyObject , new()
 	{

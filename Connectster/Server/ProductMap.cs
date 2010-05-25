@@ -13,12 +13,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Shopsterify.Shopsterify.Database.Interfaces;
-using Shopsterify.Shopsterify.Interfaces;
-using Shopsterify.Database;
+using Connectster.Server.Database.Interfaces;
+using Connectster.Server.Interfaces;
 
-namespace Shopsterify.Shopsterify
+namespace Connectster.Server
 {
 	 abstract public class ProductMap<T> : IProductMap<T> 
 		where T : IMappedProduct

@@ -11,13 +11,10 @@
 //	limitations under the License.using System;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Shopsterify.Shopsterify.Interfaces;
+using Connectster.Server.Interfaces;
 using Shopster.API.Service.SDK.Core.Soap;
 
-namespace Shopsterify.Shopster.ShopsterObjects
+namespace Connectster.Shopster.ShopsterObjects
 {
 	class ShopsterCartItem : ILineItem
 	{

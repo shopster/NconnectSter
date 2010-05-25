@@ -12,7 +12,8 @@
 
 
 using System.Collections.Generic;
-namespace Shopsterify.CountryCodes
+
+namespace Connectster.Server
 {
 	public class CountryCodes
 	{

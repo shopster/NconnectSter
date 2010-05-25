@@ -12,12 +12,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Shopsterify.Shopsterify.Database.Interfaces;
-using Shopsterify.Shopify;
+using Connectster.Shopify;
 
-namespace Shopsterify.Shopsterify
+namespace Connectster.Server
 {
 	//TODO: can this class and ShopsterifyProduct map inherit alot of actions from e parent class?
 	public class ShopifyMetafieldMap : ProductMap<ShopifyMetafieldMapping>

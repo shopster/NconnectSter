@@ -11,14 +11,11 @@
 //	limitations under the License.using System;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
-using Shopsterify.Shopify;
 using System.Xml;
+using Connectster.Shopify.Interfaces;
 
-namespace Shopsterify
+namespace Connectster.Shopify
 {
 	[Serializable]
 	[XmlRootAttribute(ElementName = "image", IsNullable = true)]

@@ -13,17 +13,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Connectster.Server.Interfaces;
+using Connectster.Shopster.Converters;
 using Shopster.API.Service.SDK.Core.Soap;
 using Shopster.API.Service.SDK.Call;
-using Shopsterify.Shopsterify;
 using Shopster.API.Service.SDK.Core;
 using Shopster.API.Service.SDK.Core.Exceptions;
-using Shopsterify.Shopsterify.Interfaces;
-using Shopsterify.Shopster.Converters;
 using log4net;
 
-namespace Shopsterify.Shopster
+namespace Connectster.Shopster
 {
 	class ShopsterCommunicator
 	{

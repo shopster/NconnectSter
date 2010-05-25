@@ -11,14 +11,12 @@
 //	limitations under the License.using System;
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
-using Shopsterify.Shopify.Interfaces;
-using Shopsterify.Shopsterify.Interfaces;
+using Connectster.Server.Interfaces;
+using Connectster.Shopify.Interfaces;
 
-namespace Shopsterify.Shopify
+namespace Connectster.Shopify
 {
 	[Serializable]
 	public class ShopifyAddress :IAddress , IShopifyObject
@@ -37,7 +35,7 @@ namespace Shopsterify.Shopify
 			this.Address2 = inAddress.Street2;
 			this.City = inAddress.City;
 			this.Company = inAddress.Name;
-			this.Country = CountryCodes.CountryCodes.Instance().countryToCode.Where(Item => Item.Value == inAddress.CountryCode).Select(Item => Item.Key).FirstOrDefault();
+			this.Country = Enumerable.FirstOrDefault<string>(CountryCodes.Instance().countryToCode.Where(Item => Item.Value == inAddress.CountryCode).Select(Item => Item.Key));
 			this.CountryCode = inAddress.CountryCode;
 			string[] names =  inAddress.Name.Split(' ');
 			if(names!=null && names.Count()>0)

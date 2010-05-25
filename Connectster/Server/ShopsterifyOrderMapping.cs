@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Shopsterify.Shopsterify.Interfaces;
+﻿using Connectster.Server.Interfaces;
 
-namespace Shopsterify.Shopsterify
+namespace Connectster.Server
 {
 	public class ShopsterifyOrderMapping: IOrderMapping
 	{

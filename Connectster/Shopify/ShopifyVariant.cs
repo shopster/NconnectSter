@@ -11,12 +11,9 @@
 //	limitations under the License.using System;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
 
-namespace Shopsterify
+namespace Connectster.Shopify
 {
 	[Serializable]
 	[XmlRootAttribute(ElementName = "variants", IsNullable = false)]

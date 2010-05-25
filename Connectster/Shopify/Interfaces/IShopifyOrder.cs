@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
-using Shopsterify.Shopsterify.Interfaces;
 
-namespace Shopsterify.Shopify.Interfaces
+namespace Connectster.Shopify.Interfaces
 {
 	interface IShopifyOrder
 	{

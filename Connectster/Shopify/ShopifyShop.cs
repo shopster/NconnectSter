@@ -11,13 +11,10 @@
 //	limitations under the License.using System;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
-using Shopsterify.Shopify.Interfaces;
+using Connectster.Shopify.Interfaces;
 
-namespace Shopsterify.Shopify
+namespace Connectster.Shopify
 {
 	[XmlRootAttribute(ElementName = "shop", IsNullable = false)] 
 	public class ShopifyShop : IShopifyObject, IShopifyShop

@@ -10,23 +10,17 @@
 //	See the License for the specific language governing permissions and
 //	limitations under the License.using System;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Shopster.API.Service.SDK.Core.Soap;
-using Shopsterify.Shopsterify.Interfaces;
-using Shopsterify.Shopster;
-using Shopsterify.Shopster.ShopsterObjects;
-
-namespace Shopsterify.Shopsterify
+namespace Connectster.Server.Interfaces
 {
-	class OrderConverter
+	public interface IAddress
 	{
-
-		public static ShopsterOrder ConvertOrder(IOrder sourceOrder)
-		{
-			return null;
-		}
+		string Name { get; set; } 
+		string Street1 { get; set; } 
+		string Street2 { get; set; } 
+		string City { get; set; } 
+		string Region { get; set; } 
+		string PostalCode { get; set; } 
+		string CountryCode { get; set; } 
+		
 	}
 }

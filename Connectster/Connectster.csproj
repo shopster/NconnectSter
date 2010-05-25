@@ -8,8 +8,8 @@
     <ProjectGuid>{0F21010C-37F1-40CD-9AEA-47D65C322241}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Shopsterify</RootNamespace>
-    <AssemblyName>Shopsterify</AssemblyName>
+    <RootNamespace>Connectster</RootNamespace>
+    <AssemblyName>Connectster</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>Shopsterify.Program</StartupObject>
@@ -70,18 +70,18 @@
     <Compile Include="Shopify\ShopifyMetafield.cs" />
     <Compile Include="Shopify\ShopifyShippingLine.cs" />
     <Compile Include="Shopify\ShopifyTaxLine.cs" />
-    <Compile Include="Shopsterify\ConfigurationManager.cs" />
-    <Compile Include="Shopsterify\CountryCodes.cs" />
-    <Compile Include="Shopsterify\Database\Interfaces\IProductMap.cs" />
-    <Compile Include="Shopsterify\Database\ShopsterifyProductMap.cs" />
-    <Compile Include="Shopsterify\Interfaces\IAddress.cs" />
-    <Compile Include="Shopsterify\Interfaces\ILineItem.cs" />
-    <Compile Include="Shopsterify\Interfaces\IMappedProduct.cs" />
-    <Compile Include="Shopsterify\Interfaces\IOrder.cs" />
-    <Compile Include="Shopsterify\Interfaces\IOrderMapping.cs" />
-    <Compile Include="Shopsterify\OrderConverter.cs" />
-    <Compile Include="Shopsterify\ProductConverter.cs" />
-    <Compile Include="Shopsterify\Database\ShopsterifyDatabase.cs" />
+    <Compile Include="Server\ConfigurationManager.cs" />
+    <Compile Include="Server\CountryCodes.cs" />
+    <Compile Include="Server\Database\Interfaces\IProductMap.cs" />
+    <Compile Include="Server\Database\ShopsterifyProductMap.cs" />
+    <Compile Include="Server\Interfaces\IAddress.cs" />
+    <Compile Include="Server\Interfaces\ILineItem.cs" />
+    <Compile Include="Server\Interfaces\IMappedProduct.cs" />
+    <Compile Include="Server\Interfaces\IOrder.cs" />
+    <Compile Include="Server\Interfaces\IOrderMapping.cs" />
+    <Compile Include="Server\OrderConverter.cs" />
+    <Compile Include="Server\ProductConverter.cs" />
+    <Compile Include="Server\Database\ShopsterifyDatabase.cs" />
     <Compile Include="MyApiContext.cs" />
     <Compile Include="Shopify\Enumerations.cs" />
     <Compile Include="Shopify\Interfaces\IShopifyOrder.cs" />
@@ -102,14 +102,14 @@
     <Compile Include="Shopify\ShopifyStoreAuth.cs" />
     <Compile Include="Shopify\ShopifyVariant.cs" />
     <Compile Include="Shopify\ShopifyAppAuth.cs" />
-    <Compile Include="Shopsterify\ProductMap.cs" />
-    <Compile Include="Shopsterify\ShopifyMetafieldMap.cs" />
-    <Compile Include="Shopsterify\ShopifyMetafieldMapping.cs" />
-    <Compile Include="Shopsterify\ShopsterifyController.cs" />
-    <Compile Include="Shopsterify\ShopsterifyOrderMapping.cs" />
-    <Compile Include="Shopsterify\ShopsterifyProduct.cs" />
-    <Compile Include="Shopsterify\ShopsterifySyncJob.cs" />
-    <Compile Include="Shopsterify\ShopsterifyUser.cs" />
+    <Compile Include="Server\ProductMap.cs" />
+    <Compile Include="Server\ShopifyMetafieldMap.cs" />
+    <Compile Include="Server\ShopifyMetafieldMapping.cs" />
+    <Compile Include="Server\ShopsterifyController.cs" />
+    <Compile Include="Server\ShopsterifyOrderMapping.cs" />
+    <Compile Include="Server\ShopsterifyProduct.cs" />
+    <Compile Include="Server\ShopsterifySyncJob.cs" />
+    <Compile Include="Server\ShopsterifyUser.cs" />
     <Compile Include="Shopster\Converters\ShopsterAddressConverter.cs" />
     <Compile Include="Shopster\Converters\ShopsterOrderConverter.cs" />
     <Compile Include="Shopster\ShopsterCommunicator.cs" />

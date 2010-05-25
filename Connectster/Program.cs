@@ -14,28 +14,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Data;
-using System.Text.RegularExpressions;
 using System.Threading;
-using System.Net;
 using System.IO;
-using System.Xml;
-using System.Xml.Serialization;
-using Shopster.API.Service.SDK;
-using Shopster.API.Service.SDK.Call;
-using Shopster.API.Service.SDK.Core;
-using Shopster.API.Service.SDK.Core.Exceptions;
-using Shopster.API.Service.SDK.Core.Soap;
-using Shopsterify.Shopify;
-using System.Data.Odbc;
-using Shopsterify.Database;
-using Shopsterify.Shopsterify;
-using Shopsterify.Shopster;
+using Connectster.EasyConfig;
+using Connectster.Server;
 using log4net;
-using EasyConfig;
 
-
-namespace Shopsterify
+namespace Connectster
 {
 	class Program
 	{ 

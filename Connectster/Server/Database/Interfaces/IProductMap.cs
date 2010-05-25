@@ -12,11 +12,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Shopsterify.Shopsterify.Interfaces;
 
-namespace Shopsterify.Shopsterify.Database.Interfaces
+namespace Connectster.Server.Database.Interfaces
 {
 	public interface IProductMap<T>
 	{

@@ -10,14 +10,11 @@
 //	See the License for the specific language governing permissions and
 //	limitations under the License.using System;
 
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Shopsterify.Shopsterify.Interfaces;
+using Connectster.Server.Interfaces;
 using Shopster.API.Service.SDK.Core.Soap;
 
-namespace Shopsterify.Shopster.ShopsterObjects
+namespace Connectster.Shopster.ShopsterObjects
 {
 	class ShopsterAddress : IAddress
 	{
@@ -68,7 +65,7 @@ namespace Shopsterify.Shopster.ShopsterObjects
 		{
 			this.City = inAddress.City;
 			//Lookup the country related to this code.
-			this.Country = CountryCodes.CountryCodes.Instance().countryToCode.Where(country => country.Value == inAddress.CountryCode).Select(country => country.Key).FirstOrDefault();
+			this.Country = Enumerable.FirstOrDefault<string>(CountryCodes.Instance().countryToCode.Where(country => country.Value == inAddress.CountryCode).Select(country => country.Key));
 			this.CountryCode = inAddress.CountryCode;
 			this.Name = inAddress.Name;
 			this.PostalCode = inAddress.PostalCode;

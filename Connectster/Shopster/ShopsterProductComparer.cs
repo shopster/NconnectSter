@@ -13,7 +13,8 @@
 using System.Collections.Generic;
 using Shopster.API.Service.SDK.Core.Soap;
 using System.Text;
-namespace Shopsterify.Shopster
+
+namespace Connectster.Shopster
 {
 	public class ShopsterProductComparer : IEqualityComparer<InventoryItemType>
 	{

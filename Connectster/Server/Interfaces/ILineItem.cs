@@ -10,22 +10,12 @@
 //	See the License for the specific language governing permissions and
 //	limitations under the License.using System;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Shopsterify.Shopsterify.Interfaces
+namespace Connectster.Server.Interfaces
 {
-	public interface IAddress
+	public interface ILineItem
 	{
-		string Name { get; set; } 
-		string Street1 { get; set; } 
-		string Street2 { get; set; } 
-		string City { get; set; } 
-		string Region { get; set; } 
-		string PostalCode { get; set; } 
-		string CountryCode { get; set; } 
-		
+		int LineItemId { get; set; }
+		int ProductId { get; set; }
+		int Quantity { get; set; }
 	}
 }

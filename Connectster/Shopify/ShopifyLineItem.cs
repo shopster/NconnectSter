@@ -11,13 +11,11 @@
 //	limitations under the License.using System;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Shopsterify.Shopsterify.Interfaces;
 using System.Xml.Serialization;
+using Connectster.Server.Interfaces;
+using Connectster.Shopify.Interfaces;
 
-namespace Shopsterify.Shopify
+namespace Connectster.Shopify
 {
 	[Serializable]
 	public class ShopifyLineItem: ILineItem, IShopifyObject

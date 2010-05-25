@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace EasyConfig
+namespace Connectster.EasyConfig
 {
 	/// <summary>
 	/// A single setting from a configuration file

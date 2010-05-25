@@ -14,13 +14,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Shopsterify.Shopify.Interfaces;
-using System.Security.Policy;
-using System.Net;
 using System.Xml.Serialization;
-using Shopsterify.Shopsterify.Interfaces;
+using Connectster.Server.Interfaces;
+using Connectster.Shopify.Interfaces;
 
-namespace Shopsterify.Shopify
+namespace Connectster.Shopify
 {
 	[XmlRootAttribute(ElementName = "order", IsNullable = false)] 
 	public class ShopifyOrder : IShopifyOrder, IShopifyObject, IOrder

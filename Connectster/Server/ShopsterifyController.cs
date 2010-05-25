@@ -13,21 +13,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Shopsterify.Database;
+using Connectster.Server.Database;
+using Connectster.Shopify;
+using Connectster.Shopster;
 using Shopster.API.Service.SDK.Core;
-using Shopsterify.Shopster;
 using Shopster.API.Service.SDK.Core.Soap;
-using Shopsterify.Shopify;
-using System.Web;
-using Shopsterify.Shopsterify.Database.Interfaces;
-using Shopsterify.Shopsterify.Database;
-using Shopsterify.Shopsterify.Interfaces;
 using log4net;
 
-
-
-namespace Shopsterify.Shopsterify
+namespace Connectster.Server
 {
 	//Implements all the commands that can be done by Shopsterify
 	public class ShopsterifyController

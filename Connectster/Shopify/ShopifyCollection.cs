@@ -11,14 +11,10 @@
 //	limitations under the License.using System;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
 using System.Xml.Serialization;
-using Shopsterify.Shopify.Interfaces;
+using Connectster.Shopify.Interfaces;
 
-namespace Shopsterify.Shopify
+namespace Connectster.Shopify
 {
 	[XmlRootAttribute(ElementName = "custom-collection", IsNullable = false)] 
 	public class ShopifyCollection: IShopifyCollection, IShopifyObject

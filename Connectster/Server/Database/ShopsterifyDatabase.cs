@@ -12,20 +12,16 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data.Odbc;
 using System.Data;
+using Connectster.EasyConfig;
+using Connectster.Shopify;
+using Connectster.Shopster;
 using Shopster.API.Service.SDK.Core.Soap;
-using Shopsterify.Shopsterify;
 using Shopster.API.Service.SDK.Core;
-using Shopsterify.Shopster;
-using Shopsterify.Shopify;
-using Shopsterify.Shopsterify.Interfaces;
 using log4net;
-using EasyConfig;
 
-namespace Shopsterify.Database
+namespace Connectster.Server.Database
 {
 	//Ugly for now
 	class ShopsterifyDatabase

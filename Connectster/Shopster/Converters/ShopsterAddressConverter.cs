@@ -11,13 +11,10 @@
 //	limitations under the License.using System;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Shopsterify.Shopsterify.Interfaces;
-using Shopsterify.Shopster.ShopsterObjects;
+using Connectster.Server.Interfaces;
+using Connectster.Shopster.ShopsterObjects;
 
-namespace Shopsterify.Shopster.Converters
+namespace Connectster.Shopster.Converters
 {
 	class ShopsterAddressConverter
 	{

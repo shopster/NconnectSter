@@ -19,13 +19,13 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Net;
+using Connectster.EasyConfig;
+using Connectster.Server;
+using Connectster.Shopify.Interfaces;
 using log4net;
-using Shopsterify.Shopify;
 using System.Web;
-using EasyConfig;
-using Shopsterify.Shopsterify;
 
-namespace Shopsterify
+namespace Connectster.Shopify
 {
 	public class ShopifyCommunicator :IShopifyObject
 	{

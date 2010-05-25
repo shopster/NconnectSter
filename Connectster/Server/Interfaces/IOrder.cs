@@ -10,19 +10,15 @@
 //	See the License for the specific language governing permissions and
 //	limitations under the License.using System;
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Shopsterify.Shopsterify.Interfaces
+namespace Connectster.Server.Interfaces
 {
-	public interface IMappedProduct 
+	public interface IOrder
 	{
-		int SourceId { get; set; } //ie ShopsterProductId
-		int DestinationId { get; set; } //ie ShopifyProductId
-		DateTime SourceDate { get; set; } //Shopster DateStamp
-		DateTime DestinationDate { get; set; } //Shopify DateStamp
-
+		IAddress BillingAddress { get; set; }
+		IAddress ShippingAddress { get; set; }
+		List<ILineItem> LineItems { get; }
+		string ShippingMethod { get; set; }
 	}
 }

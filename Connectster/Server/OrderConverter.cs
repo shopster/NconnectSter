@@ -10,17 +10,17 @@
 //	See the License for the specific language governing permissions and
 //	limitations under the License.using System;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Connectster.Server.Interfaces;
+using Connectster.Shopster.ShopsterObjects;
 
-namespace Shopsterify.Shopsterify.Interfaces
+namespace Connectster.Server
 {
-	public interface ILineItem
+	class OrderConverter
 	{
-		int LineItemId { get; set; }
-		int ProductId { get; set; }
-		int Quantity { get; set; }
+
+		public static ShopsterOrder ConvertOrder(IOrder sourceOrder)
+		{
+			return null;
+		}
 	}
 }

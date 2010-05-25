@@ -11,13 +11,9 @@
 //	limitations under the License.using System;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using log4net;
-using Shopster.API.Service.SDK.Core;
 
-namespace Shopsterify.Shopsterify
+namespace Connectster.Server
 {
 
 	public class ShopsterifyUser
