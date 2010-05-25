@@ -15,18 +15,18 @@
 
 
 --
--- Create schema shopsterify
+-- Create schema connectster
 --
 
-CREATE DATABASE IF NOT EXISTS shopsterify;
-USE shopsterify;
+CREATE DATABASE IF NOT EXISTS connectster;
+USE connectster;
 
 --
--- Temporary table structure for view `shopsterifyproduct`
+-- Temporary table structure for view `connectsterproduct`
 --
-DROP TABLE IF EXISTS `shopsterifyproduct`;
-DROP VIEW IF EXISTS `shopsterifyproduct`;
-CREATE TABLE `shopsterifyproduct` (
+DROP TABLE IF EXISTS `connectsterproduct`;
+DROP VIEW IF EXISTS `connectsterproduct`;
+CREATE TABLE `connectsterproduct` (
   `shopsterVersionDate` datetime,
   `shopsterproductId` int(10) unsigned,
   `shopifyproductId` int(10) unsigned,
@@ -136,11 +136,11 @@ insert into `shopifyaccounttype` (`id`, `transactionFee`, `skus`, `storage`, `mo
 /*!40000 ALTER TABLE `shopifyaccounttype` ENABLE KEYS */;
 
 --
--- Definition of table `shopsterifyorder`
+-- Definition of table `connectsterorder`
 --
 
-DROP TABLE IF EXISTS `shopsterifyorder`;
-CREATE TABLE `shopsterifyorder` (
+DROP TABLE IF EXISTS `connectsterorder`;
+CREATE TABLE `connectsterorder` (
   `ShopsterOrderId` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `ShopifyOrderId` int(10) unsigned NOT NULL,
   `ShopsterUserId` int(10) unsigned NOT NULL,
@@ -151,17 +151,17 @@ CREATE TABLE `shopsterifyorder` (
   KEY `Unique_ShopsterOrderId` (`ShopsterOrderId`),
   KEY `Unique_ShopifyOrderId` (`ShopifyOrderId`),
   KEY `FK_subdomain` (`ShopifyAccountDomain`) USING BTREE,
-  KEY `FK_shopsterifyorder_ShopsterUserId` (`ShopsterUserId`),
-  CONSTRAINT `FK_shopsterifyorder_ShopsterUserId` FOREIGN KEY (`ShopsterUserId`) REFERENCES `shopsteruser` (`id`)
+  KEY `FK_connectsterorder_ShopsterUserId` (`ShopsterUserId`),
+  CONSTRAINT `FK_connectsterorder_ShopsterUserId` FOREIGN KEY (`ShopsterUserId`) REFERENCES `shopsteruser` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=238520 DEFAULT CHARSET=latin1 COMMENT='maps orders on both systems';
 
 
 --
--- Definition of table `shopsterifyproductmap`
+-- Definition of table `connectsterproductmap`
 --
 
-DROP TABLE IF EXISTS `shopsterifyproductmap`;
-CREATE TABLE `shopsterifyproductmap` (
+DROP TABLE IF EXISTS `connectsterproductmap`;
+CREATE TABLE `connectsterproductmap` (
   `ShopsterProductId` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `ShopifyProductId` int(10) unsigned NOT NULL,
   `ShopsterIsMaster` tinyint(1) NOT NULL,
@@ -172,18 +172,18 @@ CREATE TABLE `shopsterifyproductmap` (
 
 
 --
--- Definition of table `shopsterifyusermap`
+-- Definition of table `connectsterusermap`
 --
 
-DROP TABLE IF EXISTS `shopsterifyusermap`;
-CREATE TABLE `shopsterifyusermap` (
+DROP TABLE IF EXISTS `connectsterusermap`;
+CREATE TABLE `connectsterusermap` (
   `ShopsterUserId` int(10) unsigned NOT NULL,
   `ShopifySubdomain` varchar(255) NOT NULL,
   `sleepUntil` datetime DEFAULT NULL,
   PRIMARY KEY (`ShopsterUserId`,`ShopifySubdomain`) USING BTREE,
   UNIQUE KEY `Unique_ShopsterUserId` (`ShopsterUserId`) USING BTREE,
   UNIQUE KEY `Unique_ShopifySubdomain` (`ShopifySubdomain`),
-  CONSTRAINT `FK_shopsterifyusermap_ShopifySubdomain` FOREIGN KEY (`ShopifySubdomain`) REFERENCES `shopifyuser` (`subdomain`),
+  CONSTRAINT `FK_connectsterusermap_ShopifySubdomain` FOREIGN KEY (`ShopifySubdomain`) REFERENCES `shopifyuser` (`subdomain`),
   CONSTRAINT `FK_ShopsterUserId` FOREIGN KEY (`ShopsterUserId`) REFERENCES `shopsteruser` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Maps ShopsterAccounts to ShopifyAccounts and Vice Versa';
 
@@ -216,19 +216,19 @@ CREATE TABLE `shopsteruser` (
   PRIMARY KEY (`id`),
   KEY `FK_shopsteraccounttype` (`ShopsterAccountType`),
   CONSTRAINT `FK_shopsteraccounttype` FOREIGN KEY (`ShopsterAccountType`) REFERENCES `shopsteraccounttype` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=206787 DEFAULT CHARSET=latin1 COMMENT='represents information about a shopster user in shopsterify';
+) ENGINE=InnoDB AUTO_INCREMENT=206787 DEFAULT CHARSET=latin1 COMMENT='represents information about a shopster user in connectster';
 
 
 --
--- Definition of procedure `DeleteShopsterifyProduct`
+-- Definition of procedure `DeleteConnectsterProduct`
 --
 
-DROP PROCEDURE IF EXISTS `DeleteShopsterifyProduct`;
+DROP PROCEDURE IF EXISTS `DeleteConnectsterProduct`;
 
 DELIMITER $$
 
 /*!50003 SET @TEMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteShopsterifyProduct`(IN  shopsterProductId INT, IN shopifyProductId INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteConnectsterProduct`(IN  shopsterProductId INT, IN shopifyProductId INT)
 BEGIN
 DECLARE spmDelete INT;
 DECLARE shopsterDelete INT;
@@ -237,20 +237,20 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
 
 Start Transaction;
 
-DELETE spm FROM shopsterifyProductMap AS spm
+DELETE spm FROM connectsterProductMap AS spm
 WHERE spm.ShopsterProductId = shopsterProductId
 AND spm.ShopifyProductId = shopifyProductId;
 SET @spmDelete = row_count();
 
 
-DELETE sp FROM shopsterProduct AS sp LEFT OUTER JOIN shopsterifyproductmap AS spm
+DELETE sp FROM shopsterProduct AS sp LEFT OUTER JOIN connectsterproductmap AS spm
 ON sp.shopsterId = spm.shopsterProductId
 WHERE
         sp.shopsterId = shopsterProductId
         AND spm.shopsterproductid IS NULL AND spm.shopifyproductid IS NULL;
 SET @shopsterDelete = row_count();
 
-DELETE sp FROM shopifyProduct sp LEFT OUTER JOIN shopsterifyproductmap spm
+DELETE sp FROM shopifyProduct sp LEFT OUTER JOIN connectsterproductmap spm
 ON sp.id = spm.shopifyproductId
 WHERE sp.id = shopifyProductId
 AND spm.shopifyproductid IS NULL AND spm.shopsterproductid IS NULL;
@@ -267,20 +267,20 @@ END $$
 DELIMITER ;
 
 --
--- Definition of procedure `InsertShopsterifyProduct`
+-- Definition of procedure `InsertConnectsterProduct`
 --
 
-DROP PROCEDURE IF EXISTS `InsertShopsterifyProduct`;
+DROP PROCEDURE IF EXISTS `InsertConnectsterProduct`;
 
 DELIMITER $$
 
 /*!50003 SET @TEMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertShopsterifyProduct`(IN inShopsterUserId INT, IN shopsterDate DateTime,
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertConnectsterProduct`(IN inShopsterUserId INT, IN shopsterDate DateTime,
         IN inShopsterProductId INT, IN inShopifyProductId INT, IN inShopifyUserId VARCHAR(255), IN shopifyDate DateTime, IN inShopsterIsMaster BOOL)
 BEGIN
 DECLARE insertShopster INT;
 DECLARE insertShopify INT;
-DECLARE insertyShopsterifyProductMap INT;
+DECLARE insertyConnectsterProductMap INT;
 DECLARE adate DateTime;
 
 
@@ -289,7 +289,7 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
 Start Transaction;
 SET @insertShopster = 0;
 SET @insertShopify  = 0;
-SET @insertyShopsterifyProductMap = 0;
+SET @insertyConnectsterProductMap = 0;
 
 
 	INSERT INTO shopsterProduct(shopsterid, versiondate, shopsteruser )
@@ -304,7 +304,7 @@ SET @insertyShopsterifyProductMap = 0;
 SET @insertShopify = ROW_COUNT();
 
 
-INSERT INTO shopsterifyproductmap(shopsterProductId, shopifyProductId, ShopsterIsMaster)
+INSERT INTO connectsterproductmap(shopsterProductId, shopifyProductId, ShopsterIsMaster)
   VALUES (inShopsterProductId, inShopifyproductId, inShopsterIsMaster)
   ON DUPLICATE KEY UPDATE ShopifyProductId = inshopifyProductId , ShopsterIsMaster = inShopsterIsMaster;
 SET @insertShopifyProductMap = ROW_COUNT();
@@ -318,26 +318,26 @@ END $$
 DELIMITER ;
 
 --
--- Definition of procedure `InsertShopsterifyUser`
+-- Definition of procedure `InsertConnectsterUser`
 --
 
-DROP PROCEDURE IF EXISTS `InsertShopsterifyUser`;
+DROP PROCEDURE IF EXISTS `InsertConnectsterUser`;
 
 DELIMITER $$
 
 /*!50003 SET @TEMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertShopsterifyUser`( in shopsterUserId INT(10), in shopsterAuthToken CHAR(28), in shopsterAuthSecret CHAR(28), in shopsterAccountType INT(10),
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertConnectsterUser`( in shopsterUserId INT(10), in shopsterAuthToken CHAR(28), in shopsterAuthSecret CHAR(28), in shopsterAccountType INT(10),
 subdomain Varchar(255), in userStatus INT(4), in replicationLevel Int(4), in shopifyAuthToken Char(32), in shopifyAccountType INT(2))
 BEGIN
 DECLARE insertShopsterUser INT;
 DECLARE insertShopifyUser INT;
-DECLARE insertShopsterifyUserMap INT;
+DECLARE insertConnectsterUserMap INT;
 DECLARE shopifyUserId INT;
 DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
 
 SET @insertShopster = 0;
 SET @insertShopify  = 0;
-SET @insertShopsterifyProductMap = 0;
+SET @insertConnectsterProductMap = 0;
 
 
 INSERT INTO shopifyUser (subDomain, `status`,ReplicationLevel, AuthToken, ShopifyAccountType)
@@ -352,14 +352,14 @@ ON DUPLICATE KEY UPDATE AuthToken=shopsterAuthToken, AuthSecret=shopsterAuthSecr
 SET @insertShopster = ROW_COUNT();
 
 
-REPLACE INTO shopsterifyUserMap
+REPLACE INTO connectsterUserMap
 VALUES(shopsterUserId, subdomain, UTC_TIMESTAMP());
-SET @insertShopsterifyUserMap = ROW_COUNT();
+SET @insertConnectsterUserMap = ROW_COUNT();
 
 COMMIT;
 
 
-SELECT @insertShopster as ShopsterUserInserted ,@insertShopify as ShopifyUserInserted, @insertShopsterifyUserMap as ShopsterifyUserMapInserted;
+SELECT @insertShopster as ShopsterUserInserted ,@insertShopify as ShopifyUserInserted, @insertConnectsterUserMap as ConnectsterUserMapInserted;
 END $$
 /*!50003 SET SESSION SQL_MODE=@TEMP_SQL_MODE */  $$
 
@@ -382,7 +382,7 @@ SELECT sp.versiondate as shopsterVersionDate,
     shopifyProduct.id as shopifyproductId,
     shopifyproduct.versiondate as shopifyVersionDate
 From shopsterproduct sp
-  join shopsterifyProductmap spm
+  join connectsterProductmap spm
   on sp.shopsterid = spm.Shopsterproductid
   join shopifyproduct shopifyProduct
   on spm.shopifyProductid = shopifyproduct.id
@@ -396,12 +396,12 @@ END $$
 DELIMITER ;
 
 --
--- Definition of view `shopsterifyproduct`
+-- Definition of view `connectsterproduct`
 --
 
-DROP TABLE IF EXISTS `shopsterifyproduct`;
-DROP VIEW IF EXISTS `shopsterifyproduct`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `shopsterifyproduct` AS select `sp`.`VersionDate` AS `shopsterVersionDate`,`spm`.`ShopsterProductId` AS `shopsterproductId`,`shopifyproduct`.`id` AS `shopifyproductId`,`shopifyproduct`.`VersionDate` AS `shopifyVersionDate` from ((`shopsterproduct` `sp` join `shopsterifyproductmap` `spm` on((`sp`.`ShopsterId` = `spm`.`ShopsterProductId`))) join `shopifyproduct` on((`spm`.`ShopifyProductId` = `shopifyproduct`.`id`)));
+DROP TABLE IF EXISTS `connectsterproduct`;
+DROP VIEW IF EXISTS `connectsterproduct`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `connectsterproduct` AS select `sp`.`VersionDate` AS `shopsterVersionDate`,`spm`.`ShopsterProductId` AS `shopsterproductId`,`shopifyproduct`.`id` AS `shopifyproductId`,`shopifyproduct`.`VersionDate` AS `shopifyVersionDate` from ((`shopsterproduct` `sp` join `connectsterproductmap` `spm` on((`sp`.`ShopsterId` = `spm`.`ShopsterProductId`))) join `shopifyproduct` on((`spm`.`ShopifyProductId` = `shopifyproduct`.`id`)));
 
 
 
