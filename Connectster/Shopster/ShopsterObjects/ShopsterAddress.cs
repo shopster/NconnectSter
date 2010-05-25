@@ -11,6 +11,7 @@
 //	limitations under the License.using System;
 
 using System.Linq;
+using Connectster.Server;
 using Connectster.Server.Interfaces;
 using Shopster.API.Service.SDK.Core.Soap;
 
