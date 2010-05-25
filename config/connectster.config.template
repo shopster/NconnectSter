@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<appSettings>
-	<!-- Shopster Configuration -->
-	<add key="ShopsterConsumerKey" value="C844275E-3670-4529-8541-6944CEF55966" />
-	<add key="ShopsterConsumerSecret" value="C844275E-3670-4529-8541-6944CEF55966" />
-	<add key="ShopsterEndpointConfigurationName" value="MainBinding_IMain" />
+<configuration>
+  <appSettings>
+    <!-- Shopster Configuration -->
+    <add key="ShopsterConsumerKey" value="C844275E-3670-4529-8541-6944CEF55966" />
+    <add key="ShopsterConsumerSecret" value="C844275E-3670-4529-8541-6944CEF55966" />
+    <add key="ShopsterEndpointConfigurationName" value="MainBinding_IMain" />
 
-	<!-- Shopify Configuration -->
-	<add key="ShopifyDomain" value=".myshopify.com" />
-	<!-- ShopifyProtocol should be "http://" or "https://" -->
-	<add key="ShopifyProtocol" value="https://" /> 
-	<!-- Replace this with your ApiKey from Shopify -->
-	<add key="ShopifyAppAuthApiKey" value="6b40c288a08dcbdc3a2a336b60e054c9" />
-	<!-- Replace this with your SecretKey from Shopify -->
-	<add key="ShopifyAppAuthApiSharedSecret" value="12fdc51e8f5ab504cd7381ffb76999c7" />
-</appSettings>
+    <!-- Shopify Configuration -->
+    <add key="ShopifyDomain" value=".myshopify.com" />
+    <!-- ShopifyProtocol should be "http://" or "https://" -->
+    <add key="ShopifyProtocol" value="https://" />
+    <!-- Replace this with your ApiKey from Shopify -->
+    <add key="ShopifyAppAuthApiKey" value="6b40c288a08dcbdc3a2a336b60e054c9" />
+    <!-- Replace this with your SecretKey from Shopify -->
+    <add key="ShopifyAppAuthApiSharedSecret" value="12fdc51e8f5ab504cd7381ffb76999c7" />
+  </appSettings>
 
-<connectionString>
-	<add connectionString="data source=localhost;Initial Catalog=connecster;User ID=connectster;Password=connectster;" name="connectster" providerName="System.Data.SqlClient" />
-</connectionStrings>
+  <connectionStrings>
+    <add connectionString="server=localhost;database=connectster;uid=connectster;pwd=P@ssw0rd999;" name="connectster" providerName="MySql.Data.MySqlClient" />
+  </connectionStrings>
+</configuration>
