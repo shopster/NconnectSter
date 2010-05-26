@@ -1,0 +1,4 @@
+﻿<?xml version="1.0"?>
+<connectionStrings>
+  <add connectionString="server=localhost;database=connectster;uid=connectster;pwd=P@ssw0rd999;" name="connectster" providerName="MySql.Data.MySqlClient" />
+</connectionStrings>

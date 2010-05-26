@@ -1,0 +1,16 @@
+﻿<?xml version="1.0"?>
+<appSettings>
+  <!-- Shopster Configuration -->
+  <add key="ShopsterConsumerKey" value="55555555-5555-5555-5555-555555555555" />
+  <add key="ShopsterConsumerSecret" value="55555555-5555-5555-5555-555555555555" />
+  <add key="ShopsterEndpointConfigurationName" value="MainBinding_IMain" />
+
+  <!-- Shopify Configuration -->
+  <add key="ShopifyDomain" value=".myshopify.com" />
+  <!-- ShopifyProtocol should be "http://" or "https://" -->
+  <add key="ShopifyProtocol" value="https://" />
+  <!-- Replace this with your ApiKey from Shopify -->
+  <add key="ShopifyAppAuthApiKey" value="55555555555555555555555555555555" />
+  <!-- Replace this with your SecretKey from Shopify -->
+  <add key="ShopifyAppAuthApiSharedSecret" value="55555555555555555555555555555555" />
+</appSettings>
