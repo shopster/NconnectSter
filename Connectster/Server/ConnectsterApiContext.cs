@@ -16,9 +16,9 @@ using Shopster.API.Service.SDK.Core;
 
 namespace Connectster.Server
 {
-	public class MyApiContext : ApiContext
+	public class ConnectsterApiContext : ApiContext
 	{
-		public MyApiContext()
+		public ConnectsterApiContext()
 		{
 
             ConsumerKey = ConfigurationManager.AppSettings["ShopsterConsumerKey"];

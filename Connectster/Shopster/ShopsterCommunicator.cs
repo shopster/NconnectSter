@@ -237,7 +237,7 @@ namespace Connectster.Shopster
 
         #region InventoryItem Calls
 
-        public List<InventoryItemType> GetAllInventoryItemsForUser(MyApiContext apiContext, string group)
+        public List<InventoryItemType> GetAllInventoryItemsForUser(ConnectsterApiContext apiContext, string group)
         {
             if (apiContext == null)
             {

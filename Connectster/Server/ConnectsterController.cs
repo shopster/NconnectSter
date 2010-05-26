@@ -340,7 +340,7 @@ namespace Connectster.Server
             ShopifyStoreAuth shopifyAuth = _database.SelectShopifyUserDetails(user);
             ShopsterUser shopsterUser = _database.SelectShopsterUserDetails(user);
 
-            var apiContext = new MyApiContext
+            var apiContext = new ConnectsterApiContext
                                  {
                                      AccessToken = shopsterUser.AuthToken,
                                      AccessTokenSecret = shopsterUser.AuthSecret
@@ -500,7 +500,7 @@ namespace Connectster.Server
             ShopifyStoreAuth shopifyAuth = _database.SelectShopifyUserDetails(user);
             ShopsterUser shopsterUser = _database.SelectShopsterUserDetails(user);
 
-            var apiContext = new MyApiContext
+            var apiContext = new ConnectsterApiContext
                                  {
                                      AccessToken = shopsterUser.AuthToken,
                                      AccessTokenSecret = shopsterUser.AuthSecret
