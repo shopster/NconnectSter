@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0"?>
 <appSettings>
+  <!-- Required to run as a service -->
+  <add key="ClientSettingsProvider.ServiceUri" value="" />
   <!-- Shopster Configuration -->
   <add key="ShopsterConsumerKey" value="55555555-5555-5555-5555-555555555555" />
   <add key="ShopsterConsumerSecret" value="55555555-5555-5555-5555-555555555555" />
   <add key="ShopsterEndpointConfigurationName" value="MainBinding_IMain" />
-
   <!-- Shopify Configuration -->
   <add key="ShopifyDomain" value=".myshopify.com" />
   <!-- ShopifyProtocol should be "http://" or "https://" -->
