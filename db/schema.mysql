@@ -15,6 +15,32 @@
 
 
 --
+-- Create user if it doesn't exist
+--
+
+DROP PROCEDURE IF EXISTS `test`.`drop_user_if_exists` ;
+DELIMITER $$
+CREATE PROCEDURE `test`.`drop_user_if_exists`()
+BEGIN
+  DECLARE foo BIGINT DEFAULT 0 ;
+  SELECT COUNT(*)
+  INTO foo
+    FROM `mysql`.`user`
+      WHERE `User` = 'connectster' ;
+  
+  IF foo > 0 THEN 
+         DROP USER 'connectster' ;
+  END IF;
+END ;$$
+DELIMITER ;
+
+CALL `test`.`drop_user_if_exists`() ;
+
+DROP PROCEDURE IF EXISTS `test`.`drop_user_if_exists` ;
+
+CREATE USER 'connectster' identified by 'P@ssw0rd999';
+
+--
 -- Create schema connectster
 --
 
@@ -404,6 +430,12 @@ DROP VIEW IF EXISTS `connectsterproduct`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `connectsterproduct` AS select `sp`.`VersionDate` AS `shopsterVersionDate`,`spm`.`ShopsterProductId` AS `shopsterproductId`,`shopifyproduct`.`id` AS `shopifyproductId`,`shopifyproduct`.`VersionDate` AS `shopifyVersionDate` from ((`shopsterproduct` `sp` join `connectsterproductmap` `spm` on((`sp`.`ShopsterId` = `spm`.`ShopsterProductId`))) join `shopifyproduct` on((`spm`.`ShopifyProductId` = `shopifyproduct`.`id`)));
 
 
+--
+-- Grant privileges to user Connectster
+--
+
+grant select, insert, update, delete on connectster.* to connectster;
+grant execute on connectster.* to connectster;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
