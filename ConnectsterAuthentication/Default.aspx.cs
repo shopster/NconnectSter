@@ -19,7 +19,6 @@ using System.Text;
 using System.Web.UI;
 using System.Xml;
 using MySql.Data.MySqlClient;
-using Shopsterify;
 
 namespace ConnectsterAuthentication
 {
@@ -123,10 +122,12 @@ namespace ConnectsterAuthentication
 
         protected void DoShopsterOAuth()
         {
-            var callback = new UriBuilder(Request.Url);
-            callback.Query = String.Format("shop={0}&timestamp={1}&signature={2}&t={3}"
-                                           , Request.QueryString["shop"], Request.QueryString["timestamp"],
-                                           Request.QueryString["signature"], Request.QueryString["t"]);
+            var callback = new UriBuilder(Request.Url)
+                               {
+                                   Query = String.Format("shop={0}&timestamp={1}&signature={2}&t={3}"
+                                                         , Request.QueryString["shop"], Request.QueryString["timestamp"],
+                                                         Request.QueryString["signature"], Request.QueryString["t"])
+                               };
 
 
             ApiContext = new MyApiContext();

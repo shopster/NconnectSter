@@ -70,10 +70,7 @@
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ShopsterAPI\MyApiContext.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="connectster.config" />
+    <Compile Include="MyApiContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

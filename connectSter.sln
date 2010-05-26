@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConnectsterAuthentication",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4ED4A48F-6168-4A8D-A759-BC0D8A2155FB}"
 	ProjectSection(SolutionItems) = preProject
-		config\connectster.config = config\connectster.config
-		config\connectster.config.template = config\connectster.config.template
 		db\schema.mysql = db\schema.mysql
 	EndProjectSection
 EndProject
