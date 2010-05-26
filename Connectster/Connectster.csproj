@@ -62,9 +62,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="log4net.config.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Compile Include="Shopify\Interfaces\IShopifyCollection.cs" />
     <Compile Include="Shopify\Interfaces\IShopifyMetafield.cs" />
     <Compile Include="Shopify\Interfaces\IShopifyAddress.cs" />
@@ -120,17 +117,6 @@
     <Compile Include="Shopster\ShopsterObjects\ShopsterOrder.cs" />
     <Compile Include="Shopster\ShopsterProductComparer.cs" />
     <Compile Include="Shopster\ShopsterUser.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="AppSettings.config.template" />
-    <None Include="ConnectionStrings.config.template" />
-    <None Include="AppSettings.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="ConnectionStrings.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
