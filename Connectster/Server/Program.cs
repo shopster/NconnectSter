@@ -22,9 +22,7 @@ using log4net;
 namespace Connectster.Server
 {
 	class Program
-	{ 
-
-
+	{
 		static void Main()
 		{
 			Console.OutputEncoding = Encoding.UTF8;
@@ -35,8 +33,8 @@ namespace Connectster.Server
 			//Logging 
 			var logConfigFile = new FileInfo("log4net.config.xml");
 			log4net.Config.XmlConfigurator.ConfigureAndWatch(logConfigFile);
-			ILog log = LogManager.GetLogger("Shopsterify");
 
+            ILog log = LogManager.GetLogger("Connectster");
 
 			// Authentication with Shopster API
 			var apiContext = new MyApiContext();

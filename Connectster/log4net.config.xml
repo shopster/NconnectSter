@@ -12,37 +12,38 @@
       <conversionPattern value ="%date [%thread] %-5level: %message%newline"/>
     </layout>
   </appender>
-  
-  <appender name="ShopsterifyRFA" type="log4net.Appender.RollingFileAppender">
-      <file value="c:\Temp\Log\Shopsterify.log"/>
-      <rollingStyle value= "Size"/>
-      <maxSizeRollBackups value="10"/>
-      <maximumFileSize value="100MB"/><!-- 1GB of logs max. -->
-      <staticLogFileName value="true"/>
-      <layout type="log4net.Layout.PatternLayout">
-        <conversionPattern value ="%date [%thread] %-5level: %message%newline"/>
-      </layout>
-    </appender>
 
-    <appender name="ConsoleAppender" type="log4net.Appender.ConsoleAppender">
-      <layout type="log4net.Layout.PatternLayout">
-        <conversionPattern value ="%date [%thread] %-5level: %message%newline"/>
-      </layout>
-   </appender>
+  <appender name="ConnectsterRFA" type="log4net.Appender.RollingFileAppender">
+    <file value="c:\Temp\Log\connectster.log"/>
+    <rollingStyle value= "Size"/>
+    <maxSizeRollBackups value="10"/>
+    <maximumFileSize value="100MB"/>
+    <!-- 1GB of logs max. -->
+    <staticLogFileName value="true"/>
+    <layout type="log4net.Layout.PatternLayout">
+      <conversionPattern value ="%date [%thread] %-5level: %message%newline"/>
+    </layout>
+  </appender>
 
-    <logger name="Console">
-      <level value="DEBUG"/>
-        <appender-ref ref="ConsoleAppender"/>
-    </logger>
-    
-    <logger name="Shopsterify">
-      <level value="INFO"/>
-        <appender-ref ref="ShopsterifyRFA"/>      
-    </logger>
+  <appender name="ConsoleAppender" type="log4net.Appender.ConsoleAppender">
+    <layout type="log4net.Layout.PatternLayout">
+      <conversionPattern value ="%date [%thread] %-5level: %message%newline"/>
+    </layout>
+  </appender>
+
+  <logger name="Console">
+    <level value="DEBUG"/>
+    <appender-ref ref="ConsoleAppender"/>
+  </logger>
+
+  <logger name="Connectster">
+    <level value="INFO"/>
+    <appender-ref ref="ConnectsterRFA"/>
+  </logger>
 
   <logger name="ShopifyCommunicator">
     <level value="ERROR"/>
-    <appender-ref ref="ShopsterifyRFA"/>
+    <appender-ref ref="ConnectsterRFA"/>
   </logger>
 
   <logger name="ShopifyAPICommunications">
@@ -50,10 +51,15 @@
     <appender-ref ref="ShopifyAPICommunicationRFA"/>
   </logger>
 
-  <logger name="ShopsterifyController">
+  <logger name="ConnectsterController">
     <level value="DEBUG"/>
-    <appender-ref ref="ShopsterifyRFA"/>
+    <appender-ref ref="ConnectsterRFA"/>
   </logger>
 
-     </log4net>
-  
+  <logger name="ConnectsterDBA">
+    <level value="DEBUG"/>
+    <appender-ref ref="ConnectsterRFA"/>
+  </logger>
+
+</log4net>
+

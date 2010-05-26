@@ -18,7 +18,7 @@ namespace Connectster.Server
 
 	public class ConnectsterUser
 	{
-		private static ILog logger  = LogManager.GetLogger("Shopsterify");
+		private static ILog logger  = LogManager.GetLogger("Connectster");
 		
 		public ConnectsterUser(int shopsterUser, string shopifyUser, DateTime sleepUntil)
 		{

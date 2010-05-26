@@ -57,9 +57,9 @@ namespace Connectster.Server.Database
             string query = String.Format("CALL DeleteConnectsterProduct({0},{1});", shopsterId, shopifyId);
 
             var sqlCommand = new MySqlCommand(query, _dbConn);
-            try
+
+            using (var sqlResult = sqlCommand.ExecuteReader())
             {
-                var sqlResult = sqlCommand.ExecuteReader();
                 if (sqlResult.Read())
                 {
                     if (Convert.ToInt32(sqlResult[0]) == 1)
@@ -68,13 +68,6 @@ namespace Connectster.Server.Database
                         return true;
                     }
                 }
-            }
-            catch (Exception dbEx)
-            {
-                Logger.ErrorFormat(
-                    "DeleteConnectsterProductMapping()::Error: Database exception while attempting insert. " +
-                    dbEx.Message);
-                Logger.ErrorFormat("DeleteConnectsterProductMapping()::Error: Query w/ Error was: {0}", query);
             }
 
             return false;
@@ -90,9 +83,9 @@ namespace Connectster.Server.Database
                     user.ShopsterUser, insertTime, shopsterItemId, shopifyItemId, user.ShopifyUser, insertTime, true);
 
             var sqlCommand = new MySqlCommand(query, _dbConn);
-            try
+
+            using (var sqlResult = sqlCommand.ExecuteReader())
             {
-                var sqlResult = sqlCommand.ExecuteReader();
                 if (sqlResult.Read())
                 {
                     if (Convert.ToInt32(sqlResult[0]) == 1 && Convert.ToInt32(sqlResult[1]) == 1 &&
@@ -101,12 +94,6 @@ namespace Connectster.Server.Database
                         return true;
                     }
                 }
-            }
-            catch (Exception dbEx)
-            {
-                Logger.ErrorFormat("InsertProductForUser()::Error: Database exception while attempting insert. " +
-                                   dbEx.Message);
-                Logger.ErrorFormat("InsertProductForUser()::Error: Query w/ Error was: {0}", query);
             }
 
             return false;
@@ -172,9 +159,9 @@ namespace Connectster.Server.Database
 
             string query = String.Format("CALL SelectProductForUser({0},'{1}');", shopsterUser, shopifyUser);
             var sqlCommand = new MySqlCommand(query, _dbConn);
-            try
+
+            using (var sqlResult = sqlCommand.ExecuteReader())
             {
-                var sqlResult = sqlCommand.ExecuteReader();
                 while (sqlResult.Read())
                 {
                     returnList.Add(new ConnectsterProduct(Convert.ToInt32(sqlResult[1]),
@@ -182,12 +169,6 @@ namespace Connectster.Server.Database
                                                           Convert.ToInt32(sqlResult[2]),
                                                           Convert.ToDateTime(sqlResult[3])));
                 }
-            }
-            catch (Exception dbEx)
-            {
-                Logger.ErrorFormat("SelectProductForUser()::Error: Database exception while attempting insert. " +
-                                   dbEx.Message);
-                returnList = null;
             }
 
             return returnList;
@@ -211,19 +192,13 @@ namespace Connectster.Server.Database
                 user.ShopsterUser, user.ShopifyUser);
 
             var sqlCommand = new MySqlCommand(query, _dbConn);
-            try
+
+            using (var sqlResult = sqlCommand.ExecuteReader())
             {
-                var sqlResult = sqlCommand.ExecuteReader();
                 while (sqlResult.Read())
                 {
                     return new ShopifyStoreAuth((string) sqlResult[0], (string) sqlResult[1]);
                 }
-            }
-            catch (Exception dbEx)
-            {
-                Logger.ErrorFormat("SelectShopifyUser(): Database exception while attempting select shopifyuser. " +
-                                   dbEx.Message);
-                return null;
             }
 
             return null;
@@ -239,9 +214,9 @@ namespace Connectster.Server.Database
 
 
             var sqlCommand = new MySqlCommand(query, _dbConn);
-            try
+
+            using (var sqlResult = sqlCommand.ExecuteReader())
             {
-                var sqlResult = sqlCommand.ExecuteReader();
                 while (sqlResult.Read())
                 {
                     return new ShopsterUser(Convert.ToInt32(sqlResult[0]), (string) sqlResult[1], (string) sqlResult[2],
@@ -249,27 +224,20 @@ namespace Connectster.Server.Database
                 }
                 return null; // no results
             }
-            catch (Exception dbEx)
-            {
-                Logger.ErrorFormat(
-                    "SelectShopsterUserDetails(): Database exception while attempting select user by apicontext. " +
-                    dbEx.Message);
-                return null;
-            }
-
         }
 
         public List<ConnectsterUser> SelectAllUsers()
         {
             var returnList = new List<ConnectsterUser>();
-            const string query = "SELECT sm.ShopsterUserId, sm.ShopifySubdomain, sm.sleepUntil FROM ConnectsterUserMap AS sm "
-                                 + "JOIN ShopifyUser AS shopifyU on sm.ShopifySubdomain = shopifyU.subdomain "
-                                 + "WHERE shopifyU.dateDisabled is null;";
+            const string query =
+                "SELECT sm.ShopsterUserId, sm.ShopifySubdomain, sm.sleepUntil FROM ConnectsterUserMap AS sm "
+                + "JOIN ShopifyUser AS shopifyU on sm.ShopifySubdomain = shopifyU.subdomain "
+                + "WHERE shopifyU.dateDisabled is null;";
 
             var sqlCommand = new MySqlCommand(query, _dbConn);
-            try
+
+            using (var sqlResult = sqlCommand.ExecuteReader())
             {
-                var sqlResult = sqlCommand.ExecuteReader();
                 while (sqlResult.Read())
                 {
                     try //For the Convert.ToInt32 , also so we can continue reading and get as many users as possible.
@@ -278,7 +246,7 @@ namespace Connectster.Server.Database
                                             ? DateTime.MinValue.ToUniversalTime()
                                             : Convert.ToDateTime(sqlResult[2]).ToUniversalTime();
                         var tempUser = new ConnectsterUser(Convert.ToInt32(sqlResult[0]),
-                                                                       (string) sqlResult[1], time);
+                                                           (string) sqlResult[1], time);
                         returnList.Add(tempUser);
                     }
                     catch (FormatException e)
@@ -296,23 +264,19 @@ namespace Connectster.Server.Database
                         continue;
                     }
                 }
-                return returnList;
             }
-            catch (Exception dbEx)
-            {
-                Logger.ErrorFormat(
-                    "SelectAllUsers()::Error: Database exception while attempting select user by apicontext. " +
-                    dbEx.Message);
-                return null;
-            }
+            return returnList;
         }
 
 
         public int UpdateConnectsterUsers(List<ConnectsterUser> userList, DateTime newTime)
         {
             return (from user in userList
-                    select String.Format(@" UPDATE connectsterusermap SET sleepUntil = '{0}' 
-						WHERE  ShopsterUserId={1} AND ShopifySubDomain='{2}' LIMIT 1;", newTime, user.ShopsterUser, user.ShopifyUser)
+                    select
+                        String.Format(
+                            @" UPDATE connectsterusermap SET sleepUntil = '{0}' 
+						WHERE  ShopsterUserId={1} AND ShopifySubDomain='{2}' LIMIT 1;",
+                            newTime, user.ShopsterUser, user.ShopifyUser)
                     into query select new MySqlCommand(query, _dbConn)
                     into sqlCommand select sqlCommand.ExecuteNonQuery()).Sum();
         }
@@ -339,11 +303,9 @@ namespace Connectster.Server.Database
                 shopifyAuth.StoreAuthToken);
 
             var sqlCommand = new MySqlCommand(query, _dbConn);
-            try
+
+            using (var sqlResult = sqlCommand.ExecuteReader())
             {
-                var sqlResult = sqlCommand.ExecuteReader();
-
-
                 while (sqlResult.Read()) //We return the first read.
                 {
                     try //Try to do Convert.ToInt32
@@ -365,17 +327,10 @@ namespace Connectster.Server.Database
                         continue;
                     }
                 }
+            }
 
-                //User not found.
-                return null;
-            }
-            catch (Exception dbEx)
-            {
-                Logger.ErrorFormat(
-                    "SelectConnectsterUser(): Database exception while attempting to get connectsterUser. " +
-                    dbEx.Message);
-                return null;
-            }
+            //User not found.
+            return null;
         }
 
         // todo refactor this to use the timestamp in the shopsterItem
@@ -511,10 +466,8 @@ namespace Connectster.Server.Database
 
 
             var sqlCommand = new MySqlCommand(query, _dbConn);
-            try
+            using (var sqlResult = sqlCommand.ExecuteReader())
             {
-                var sqlResult = sqlCommand.ExecuteReader();
-
                 returnMap = new Dictionary<int, int>();
                 while (sqlResult.Read())
                 {
@@ -538,12 +491,6 @@ namespace Connectster.Server.Database
                     }
                 }
                 return returnMap;
-            }
-            catch (Exception dbEx)
-            {
-                Logger.ErrorFormat(
-                    "SelectOrderMappingsForUser()::Error: Database exception while attempting to select connectsterOrder mappings for user(Shopster({0}), Shopify({1})). " +
-                    dbEx.Message, user.ShopsterUser, user.ShopifyUser);
             }
 
             //Failure if we reach here.
