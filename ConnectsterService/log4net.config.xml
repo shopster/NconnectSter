@@ -2,9 +2,9 @@
 <log4net debug="false">
 
   <appender name="ShopifyAPICommunicationRFA" type="log4net.Appender.RollingFileAppender">
-    <file value="c:\Temp\Log\Debug\ShopifyAPICommunications.log"/>
+    <file value="c:\connectster\log\Debug\ShopifyAPICommunications.log"/>
     <rollingStyle value= "Size"/>
-    <maxSizeRollBackups value="100"/>
+    <maxSizeRollBackups value="100"/>B
     <maximumFileSize value="100MB"/>
     <!-- 10GB of logs max. -->
     <staticLogFileName value="true"/>
@@ -14,7 +14,7 @@
   </appender>
 
   <appender name="ConnectsterRFA" type="log4net.Appender.RollingFileAppender">
-    <file value="c:\Temp\Log\connectster.log"/>
+    <file value="c:\connectster\log\connectster.log"/>
     <rollingStyle value= "Size"/>
     <maxSizeRollBackups value="10"/>
     <maximumFileSize value="100MB"/>

@@ -25,8 +25,8 @@ namespace ConnectsterService
         protected override void OnStop()
         {
             _server.Stop();
-            const int threeMinutes = 1000*60*60*3;
-            Thread.Sleep(threeMinutes);
+            const int tenSeconds = 1000*10;
+            Thread.Sleep(tenSeconds);
             _thread.Abort();
         }
     }
