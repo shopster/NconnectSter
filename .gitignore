@@ -1,6 +1,8 @@
 *.suo
 *.user
+*.cache
 bin
 obj
+dist
 _ReSharper.connectSter
 connectSter.5.0.ReSharper.user
