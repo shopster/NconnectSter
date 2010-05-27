@@ -6,7 +6,7 @@ namespace ConnectsterService
 {
     partial class Service : ServiceBase
     {
-        private Thread _thread;
+        private readonly Thread _thread;
 
         private readonly ConnectsterServer _server;
         public Service()

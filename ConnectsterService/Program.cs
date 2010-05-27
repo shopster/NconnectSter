@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ServiceProcess;
 using System.Text;
+using log4net.Config;
 
 namespace ConnectsterService
 {
@@ -11,7 +12,10 @@ namespace ConnectsterService
     {
         static void Main()
         {
-            Console.WriteLine("Starting connectster server..");
+            //Initialize Logging 
+            XmlConfigurator.Configure();
+    
+            //start service
             var servicesToRun = new ServiceBase[] 
                                               { 
                                                   new Service() 

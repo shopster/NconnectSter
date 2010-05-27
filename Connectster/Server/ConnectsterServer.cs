@@ -30,10 +30,6 @@ namespace Connectster.Server
             var shopsterAuthToken = ConfigurationManager.AppSettings["ShopsterConsumerKey"];
             var shopsterAuthSecret = ConfigurationManager.AppSettings["ShopsterConsumerSecret"];
 
-            //Logging 
-            var logConfigFile = new FileInfo("log4net.config.xml");
-            log4net.Config.XmlConfigurator.ConfigureAndWatch(logConfigFile);
-
             // Authentication with Shopster API
             new ConnectsterApiContext
                 {
